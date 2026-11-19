@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redactiekamer – taal scherpstellen voor school, studie en werk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14213D;--ink-2:#2B3655;--muted:#5B6275;--paper:#F6F3EC;--card:#FFFFFF;--line:#E2DCCF;--line-2:#CFC7B6;
+  --ok:#2E7D4F;--ok-bg:#E5F3EA;--bad:#B3261E;--bad-bg:#FBE9E7;--warn-bg:#FFF6DD;
+  --red:#A63F25;--red-bg:#FBECE6;--red-mid:#D8693F;
+  --teal:#0E6A64;--teal-bg:#E2F2F0;--teal-mid:#2A9D8F;
+  --indigo:#3D3896;--indigo-bg:#ECEBFA;--indigo-mid:#6C63D6;
+  --ochre:#8F5A0E;--ochre-bg:#FAF0DC;--ochre-mid:#D3922B;
+  --accent:var(--ink);--accent-bg:#E9ECF3;--accent-mid:#3E5A9A;
+  --serif:'Literata',Georgia,'Times New Roman',serif;--sans:'Public Sans',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --r:10px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);font-size:16px;line-height:1.6}
+a{color:var(--accent-mid)}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:15px;color:var(--ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* top bar */
+.top{position:sticky;top:0;z-index:30;background:var(--ink);color:#fff;display:flex;align-items:center;gap:16px;padding:10px 20px}
+.brand{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:.2px;white-space:nowrap;color:#fff;text-decoration:none}
+.brand small{font-family:var(--sans);font-weight:400;font-size:12px;opacity:.75;margin-left:8px}
+.who{font-size:13px;opacity:.9;white-space:nowrap}
+.prog{flex:1;display:flex;align-items:center;gap:10px;min-width:120px}
+.bar{flex:1;height:8px;background:rgba(255,255,255,.18);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:#F2C14E;border-radius:6px;transition:width .4s}
+.prog span{font-size:13px;font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
+.tbtn{background:transparent;border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:8px;padding:6px 12px;font-size:13px;white-space:nowrap}
+.tbtn:hover{background:rgba(255,255,255,.1)}
+.menu{display:none}
+/* layout */
+.wrap{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:calc(100vh - 52px)}
+nav.side{border-right:1px solid var(--line);background:#FBF9F4;padding:18px 14px 40px;position:sticky;top:52px;height:calc(100vh - 52px);overflow:auto}
+.side h4{margin:18px 8px 6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.nl{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--ink-2);font-size:14px;line-height:1.35}
+.nl:hover{background:#F0ECE2}
+.nl.on{background:var(--dbg,#E9ECF3);color:var(--dc,var(--ink));font-weight:600}
+.nl .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--line-2);flex:none}
+.nl .dot.half{background:linear-gradient(90deg,var(--dc,#888) 50%,transparent 50%);border-color:var(--dc,#888)}
+.nl .dot.full{background:var(--dc,#888);border-color:var(--dc,#888)}
+.dh{display:flex;align-items:center;gap:8px;margin:16px 4px 4px;padding:6px 8px;font-family:var(--serif);font-size:16px;font-weight:600;color:var(--dc);text-decoration:none;border-radius:8px}
+.dh .mini{margin-left:auto;font-family:var(--sans);font-size:11px;font-weight:500;color:var(--muted)}
+.dbar{height:4px;background:#ECE7DC;border-radius:3px;margin:0 12px 6px;overflow:hidden}
+.dbar i{display:block;height:100%;background:var(--dc)}
+main{padding:34px 48px 80px;max-width:980px;width:100%}
+/* desk colours */
+.d-red{--dc:var(--red);--dbg:var(--red-bg);--dm:var(--red-mid)}
+.d-teal{--dc:var(--teal);--dbg:var(--teal-bg);--dm:var(--teal-mid)}
+.d-indigo{--dc:var(--indigo);--dbg:var(--indigo-bg);--dm:var(--indigo-mid)}
+.d-ochre{--dc:var(--ochre);--dbg:var(--ochre-bg);--dm:var(--ochre-mid)}
+.d-ink{--dc:var(--ink);--dbg:var(--accent-bg);--dm:var(--accent-mid)}
+/* typography */
+.kicker{font-size:13px;font-weight:600;color:var(--dc);letter-spacing:.02em}
+h1{font-family:var(--serif);font-weight:600;font-size:34px;line-height:1.2;margin:4px 0 10px}
+h2{font-family:var(--serif);font-weight:600;font-size:23px;margin:34px 0 10px}
+h3{font-size:17px;margin:0 0 6px}
+.lead{font-size:18px;color:var(--ink-2);max-width:720px;margin:0 0 22px}
+p{margin:0 0 12px}
+/* boxes */
+.nut{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--dc);border-radius:0 var(--r) var(--r) 0;padding:18px 22px;margin:18px 0}
+.nut h3{font-family:var(--serif);color:var(--dc);font-size:19px;margin-bottom:10px}
+.nut ul{margin:6px 0 10px 18px;padding:0}
+.nut li{margin:3px 0}
+.nut table{border-collapse:collapse;width:100%;font-size:14.5px;margin:8px 0 12px}
+.nut th,.nut td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+.nut th{background:var(--dbg);color:var(--dc);font-weight:600}
+.ex-s{color:var(--muted);font-style:italic}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 8px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 18px;font-size:14.5px}
+.box h3{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px}
+.box ul{list-style:none;margin:0;padding:0}
+.box li{margin:5px 0}
+.box a{font-weight:500;text-decoration:none;border-bottom:1px solid #C9D3EA}
+.box a:hover{border-bottom-color:var(--accent-mid)}
+.camp{background:var(--dbg);border-color:transparent}
+.camp h3{color:var(--dc)}
+/* reading text */
+.article{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px 32px;margin:18px 0;font-family:var(--serif);font-size:16.5px;line-height:1.75}
+.article h3{font-family:var(--serif);font-size:22px;margin:0 0 4px}
+.article .src{font-family:var(--sans);font-size:12.5px;color:var(--muted);margin-bottom:14px}
+.article p{margin:0 0 12px}
+.counter{font-family:var(--sans);background:var(--warn-bg);border:1px solid #EAD9A6;border-radius:8px;padding:12px 16px;font-size:15px;margin-top:14px}
+.dialog .line{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:6px 0;border-bottom:1px dashed var(--line);font-family:var(--sans);font-size:15.5px}
+.dialog .sp{font-weight:600;color:var(--dc)}
+.tts{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line-2);border-radius:8px;padding:6px 12px;font-size:14px;margin-bottom:10px}
+/* exercises */
+.ex{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:22px 0;overflow:hidden}
+.exh{display:flex;align-items:flex-start;gap:12px;padding:16px 22px 12px;border-bottom:1px solid var(--line)}
+.exh .num{flex:none;background:var(--dbg);color:var(--dc);font-weight:600;font-size:13px;border-radius:6px;padding:3px 8px;margin-top:2px}
+.exh h3{margin:0;font-size:17px}
+.exh .ins{color:var(--muted);font-size:14.5px;margin-top:2px}
+.chip{margin-left:auto;flex:none;font-size:13px;font-weight:600;border-radius:20px;padding:3px 10px;background:#F0ECE2;color:var(--muted);white-space:nowrap}
+.chip.ok{background:var(--ok-bg);color:var(--ok)}
+.chip.mid{background:var(--warn-bg);color:#7A5A00}
+.chip.open{background:var(--accent-bg);color:var(--accent-mid)}
+.exb{padding:14px 22px 6px}
+.item{padding:10px 0;border-bottom:1px solid #F1EDE4}
+.item:last-child{border-bottom:none}
+.q{margin-bottom:6px}
+.slot{display:inline-block;min-width:70px;border-bottom:2px solid var(--line-2);text-align:center;padding:0 6px;font-weight:600;color:var(--dc)}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{background:#FAF8F3;border:1.5px solid var(--line);border-radius:8px;padding:6px 14px;font-size:15px;color:var(--ink);text-align:left}
+.opt:hover{border-color:var(--dm)}
+.opt[aria-pressed=true]{border-color:var(--dc);background:var(--dbg);color:var(--dc);font-weight:600}
+.list .opts{flex-direction:column}
+.list .opt{width:100%}
+.opt.right{border-color:var(--ok);background:var(--ok-bg);color:var(--ok)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg);color:var(--bad)}
+.gin{border:1.5px solid var(--line-2);border-radius:7px;padding:5px 9px;min-width:140px;background:#FFFEFB}
+.gin:focus,select:focus,textarea:focus{outline:2px solid var(--dm);outline-offset:1px}
+.gin.right,select.right{border-color:var(--ok);background:var(--ok-bg)}
+.gin.wrong,select.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:center}
+select.msel{width:100%;border:1.5px solid var(--line-2);border-radius:7px;padding:7px 8px;background:#FFFEFB}
+.fb{font-size:14px;margin-top:6px;padding:6px 10px;border-radius:7px}
+.fb.ok{background:var(--ok-bg);color:var(--ok)}
+.fb.bad{background:var(--bad-bg);color:var(--bad)}
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 12px}
+.bank span{background:var(--dbg);color:var(--dc);border-radius:6px;padding:2px 9px;font-size:14px}
+.exf{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 22px 18px}
+.btn{background:var(--ink);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-weight:500}
+.btn:hover{background:var(--ink-2)}
+.btn2{background:transparent;color:var(--ink);border:1.5px solid var(--line-2);border-radius:8px;padding:8px 16px}
+.btn2:hover{border-color:var(--ink)}
+.err{color:var(--bad);font-size:13.5px}
+/* proof */
+.proof{font-family:var(--serif);font-size:17px;line-height:2;background:#FFFEFA;border:1px solid var(--line);border-radius:10px;padding:18px 22px}
+.proof h4{font-family:var(--serif);font-size:20px;margin:0 0 6px;line-height:1.3}
+.tok{cursor:pointer;border-radius:4px;padding:1px 2px;transition:background .15s}
+.tok:hover{background:#FFF1C9}
+.tok.mk{background:#FFE08A;text-decoration:underline wavy var(--red-mid)}
+.tok.found{background:var(--ok-bg);color:var(--ok);text-decoration:none}
+.tok.miss{background:var(--bad-bg);color:var(--bad);text-decoration:underline}
+.tok.fp{background:#EEE;text-decoration:line-through}
+.corr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 30px;gap:10px;align-items:center;margin:6px 0}
+.corr .w{font-family:var(--serif);background:#FFE08A;border-radius:5px;padding:3px 8px}
+/* open */
+.ofield{margin:10px 0 14px}
+.ofield label{display:block;font-weight:600;font-size:14.5px;margin-bottom:5px}
+textarea.open{width:100%;border:1.5px solid var(--line-2);border-radius:8px;padding:10px 12px;background:#FFFEFB;line-height:1.5;resize:vertical}
+.model{background:var(--ok-bg);border:1px solid #BFE0CB;border-radius:8px;padding:12px 16px;font-size:14.5px;margin:8px 0}
+.model b{color:var(--ok)}
+.steps{counter-reset:s;list-style:none;padding:0;margin:8px 0}
+.steps li{counter-increment:s;position:relative;padding:6px 0 6px 40px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:5px;width:26px;height:26px;border-radius:50%;background:var(--dbg);color:var(--dc);font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:12px 0}
+.rcard{background:var(--dbg);border-radius:10px;padding:14px 16px;font-size:14.5px}
+.rcard b{color:var(--dc)}
+.johari{display:grid;grid-template-columns:110px 1fr 1fr;gap:6px;font-size:14px;margin:10px 0}
+.johari div{padding:10px;border-radius:8px;background:#FAF8F3;border:1px solid var(--line)}
+.johari .hd{background:transparent;border:none;font-weight:600;color:var(--muted);font-size:12.5px;display:flex;align-items:flex-end}
+.johari .q4{background:var(--dbg);border-color:transparent}
+.johari .q4 b{color:var(--dc)}
+/* start page */
+.hero{background:var(--ink);color:#fff;border-radius:16px;padding:34px 36px;margin-bottom:26px;position:relative;overflow:hidden}
+.hero h1{color:#fff;font-size:38px}
+.hero p{color:#D9DEEA;max-width:640px;font-size:17px}
+.hero .mast{font-family:var(--serif);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#F2C14E;border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:10px;margin-bottom:16px}
+.idf{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.idf label{font-size:13px;color:#D9DEEA;display:flex;flex-direction:column;gap:4px}
+.idf input{border:none;border-radius:8px;padding:9px 12px;min-width:220px;background:#fff}
+.desks{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:18px 0}
+.dcard{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--dc);border-radius:12px;padding:18px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:6px}
+.dcard:hover{border-color:var(--dc)}
+.dcard .t{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--dc)}
+.dcard .o{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.dcard .s{font-size:14.5px;color:var(--ink-2)}
+.dcard .p{margin-top:auto;font-size:13px;color:var(--muted)}
+/* nav buttons */
+.pn{display:flex;justify-content:space-between;gap:12px;margin-top:34px;border-top:1px solid var(--line);padding-top:18px}
+.pn a{text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-size:14.5px;max-width:48%}
+.pn a:hover{border-color:var(--ink)}
+.pn small{display:block;color:var(--muted);font-size:12px}
+/* tables */
+table.score{border-collapse:collapse;width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:14.5px;margin:12px 0}
+table.score th,table.score td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left}
+table.score th{background:#F3EFE6;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+table.score td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.score tr.dk td{background:var(--dbg);color:var(--dc);font-weight:600}
+table.score tr.tot td{font-weight:700;background:#F3EFE6}
+.mbar{display:inline-block;width:80px;height:7px;background:#ECE7DC;border-radius:4px;overflow:hidden;vertical-align:middle;margin-right:8px}
+.mbar i{display:block;height:100%;background:var(--ok)}
+.tag{display:inline-block;font-size:12px;font-weight:600;border-radius:5px;padding:1px 7px;margin:1px 3px 1px 0;background:var(--accent-bg);color:var(--accent-mid)}
+.tag.g{background:var(--ok-bg);color:var(--ok)}.tag.p{background:var(--warn-bg);color:#7A5A00}.tag.n{background:var(--bad-bg);color:var(--bad)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:14px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat .l{font-size:12.5px;color:var(--muted)}
+.stat .v{font-family:var(--serif);font-size:28px;font-weight:600}
+.note{font-size:14px;color:var(--muted)}
+footer{margin-top:50px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+#printArea{display:none}
+/* responsive */
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr}
+  nav.side{position:fixed;left:0;top:52px;width:290px;z-index:40;transform:translateX(-100%);transition:transform .25s;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+  nav.side.open{transform:none}
+  .menu{display:inline-block}
+  main{padding:24px 18px 70px}
+  .two,.mrow{grid-template-columns:1fr}
+  .who,.brand small,.top .lg,#ppct{display:none}
+  .top{gap:10px;padding:10px 12px}
+  .brand{font-size:17px}
+  h1{font-size:28px}
+  .article{padding:18px}
+  .dialog .line{grid-template-columns:1fr;gap:2px}
+  .johari{grid-template-columns:80px 1fr 1fr}
+}
+/* print */
+@media print{
+  @page{margin:16mm 14mm}
+  body{background:#fff;font-size:11pt}
+  .top,.wrap,footer{display:none!important}
+  #printArea{display:block;color:#000}
+  #printArea h1{font-size:20pt;margin:0 0 4pt}
+  #printArea h2{font-size:14pt;margin:16pt 0 6pt;border-bottom:1.5pt solid #000;padding-bottom:3pt}
+  #printArea h3{font-size:11.5pt;margin:10pt 0 4pt}
+  #printArea .pi{margin:2pt 0;page-break-inside:avoid}
+  #printArea .ok{color:#1d6b3d}
+  #printArea .bad{color:#a11}
+  #printArea table{border-collapse:collapse;width:100%;font-size:10pt}
+  #printArea td,#printArea th{border:0.6pt solid #999;padding:3pt 5pt;text-align:left}
+  #printArea .otext{border:0.6pt solid #bbb;padding:5pt 7pt;white-space:pre-wrap;margin:2pt 0 6pt}
+  #printArea .meta{font-size:10pt;color:#333}
+  .pb{page-break-before:always}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="tbtn menu" id="menuBtn" aria-label="Menu openen">☰</button>
+  <a class="brand" href="#/start">Redactiekamer<small>taal scherpstellen voor school, studie en werk</small></a>
+  <span class="who" id="who"></span>
+  <div class="prog" aria-label="Totale voortgang"><div class="bar"><i id="pbar" style="width:0"></i></div><span id="ppct">0%</span></div>
+  <button class="tbtn" id="pdfBtn"><span class="lg">Exporteer als </span>PDF</button>
+</header>
+<div class="wrap">
+  <nav class="side" id="side" aria-label="Lessen"></nav>
+  <main id="main" tabindex="-1"></main>
+</div>
+<div id="printArea"></div>
+<script>
+/* ================== LINKS ================== */
+const L={
+  gb:["Groene Boekje – woordenlijst.org","https://woordenlijst.org"],
+  leidraad:["Spellingregels (Leidraad Groene Boekje)","https://woordenlijst.org/leidraad"],
+  ta:["Taaladvies.net (Nederlandse Taalunie)","https://taaladvies.net"],
+  vl:["Team Taaladvies Vlaamse overheid (incl. oude VRT Taal-adviezen en spellingtests)","https://www.vlaanderen.be/team-taaladvies"],
+  ans:["e-ANS – Algemene Nederlandse Spraakkunst","https://e-ans.ivdnt.org"],
+  ot:["Onze Taal – Taalloket","https://onzetaal.nl/taalloket"],
+  vd:["Van Dale online woordenboek","https://www.vandale.nl"]
+};
+
+/* ================== DESKS ================== */
+const DESKS=[
+/* ------------------------------------------------------------------ */
+{id:"red",cls:"d-red",name:"Eindredactie",orig:"Taalzorg",
+ sub:"Je leest teksten na zoals een eindredacteur: spelling, voorzetsels en een strakke stijl.",
+ lessons:[
+ {id:"1-1",title:"Betekenis bepaalt spelling",
+  lead:"Aaneen of los? Bij sommige woorden beslist niet de klank, maar de betekenis hoe je schrijft.",
+  theory:`<p>Meestal schrijf je een woord zoals je het uitspreekt. Soms klinken twee vormen hetzelfde, maar betekenen ze iets anders. Dan bepaalt de <b>betekenis</b> de spelling: dat noemen we het <b>semantisch principe</b>. Een <i>pijl</i> schiet je af, een <i>peil</i> is een niveau. <i>Hij smeet</i> (gooide) iets anders dan <i>hij smeedt</i> (bewerkt metaal).</p>
+  <table><tr><th>Aaneen</th><th>Betekenis</th><th>Los</th><th>Betekenis</th></tr>
+  <tr><td>allesbehalve</td><td>helemaal niet</td><td>alles behalve</td><td>alles, maar niet dat ene</td></tr>
+  <tr><td>hoelang</td><td>hoeveel tijd (duur)</td><td>hoe lang</td><td>welke lengte of afstand</td></tr>
+  <tr><td>evengoed</td><td>net zo goed, met evenveel recht</td><td>even goed</td><td>in gelijke mate goed</td></tr>
+  <tr><td>tenslotte</td><td>per slot van rekening, uiteindelijk</td><td>ten slotte</td><td>tot slot, als laatste punt</td></tr>
+  <tr><td>tenminste</td><td>althans</td><td>ten minste</td><td>minstens</td></tr>
+  <tr><td>tekort (zn.)</td><td>wat ontbreekt</td><td>te kort</td><td>niet lang genoeg, minder dan nodig</td></tr></table>
+  <p class="ex-s">Tip: vervang het woord door zijn betekenis. Past ‘tot slot’? Dan schrijf je <i>ten slotte</i>.</p>`,
+  links:["gb","ta"],
+  campus:"In een paper kondig je met <i>ten slotte</i> je laatste argument aan. <i>Tenslotte</i> gebruik je om een redenering af te ronden: ‘We kozen deze methode, want ze is tenslotte de meest betrouwbare.’",
+  ex:[
+   {id:"1-1a",type:"choice",title:"Kies de juiste vorm",ins:"Klik op de juiste vorm. Je krijgt bij elke zin uitleg.",items:[
+    {q:"Het labverslag is ___ af: ik moet nog twee grafieken maken.",o:["allesbehalve","alles behalve"],a:0,w:"Het verslag is ‘helemaal niet’ af."},
+    {q:"Hij las ___ de bronnenlijst; die sloeg hij over.",o:["allesbehalve","alles behalve"],a:1,w:"Hij las alles, maar niet de bronnenlijst."},
+    {q:"___ duurt de mondelinge proef Frans?",o:["Hoelang","Hoe lang"],a:0,w:"Je vraagt naar de duur."},
+    {q:"___ is de Schelde van bron tot monding?",o:["Hoelang","Hoe lang"],a:1,w:"Je vraagt naar een lengte."},
+    {q:"Je had die vraag ___ aan de docent kunnen stellen.",o:["evengoed","even goed"],a:0,w:"‘Net zo goed, met evenveel recht’."},
+    {q:"In de tweede helft speelde het team ___ als in de eerste.",o:["evengoed","even goed"],a:1,w:"Een vergelijking: in gelijke mate goed."},
+    {q:"Laat haar de resultaten voorstellen; zij heeft het project ___ geleid.",o:["tenslotte","ten slotte"],a:0,w:"‘Per slot van rekening’."},
+    {q:"De spreker bedankte ___ de vrijwilligers.",o:["tenslotte","ten slotte"],a:1,w:"‘Tot slot, als laatste’."},
+    {q:"Voor dit vak heb je ___ 12 op 20 nodig.",o:["tenminste","ten minste"],a:1,w:"‘Minstens’."},
+    {q:"Het onderzoek is betrouwbaar, ___ volgens de auteurs zelf.",o:["tenminste","ten minste"],a:0,w:"‘Althans’."},
+    {q:"De gemeente kampt met een ___ aan plaatsen in de kinderopvang.",o:["tekort","te kort"],a:0,w:"Zelfstandig naamwoord: wat ontbreekt."},
+    {q:"Twee weken is echt ___ om een eindwerk te schrijven.",o:["tekort","te kort"],a:1,w:"‘Niet lang genoeg’."}
+   ]}
+  ]},
+ {id:"1-2",title:"Voorzetsels op maat",
+  lead:"Veel werkwoorden en bijvoeglijke naamwoorden hebben een vast voorzetsel. En lange voorzetseluitdrukkingen maken je tekst stroef.",
+  theory:`<p>Sommige combinaties zijn vast. In Vlaanderen hoor je vaak een ander voorzetsel dan in de standaardtaal.</p>
+  <table><tr><th>Standaardtaal</th><th>Niet: </th></tr>
+  <tr><td>allergisch <b>voor</b></td><td>allergisch aan</td></tr>
+  <tr><td>geïnteresseerd <b>in</b> / zich interesseren <b>voor</b></td><td>geïnteresseerd voor</td></tr>
+  <tr><td>bestaan <b>uit</b> (onderdelen) / bestaan <b>in</b> (inhoud, wezen)</td><td>– door elkaar halen –</td></tr>
+  <tr><td><b>met</b> 100 km per uur rijden</td><td>aan 100 km per uur</td></tr>
+  <tr><td>geslaagd <b>voor</b> een examen</td><td>geslaagd in een examen</td></tr></table>
+  <p><b>Voorzetseluitdrukkingen</b> zoals <i>met betrekking tot, ten gevolge van</i> maken een tekst zwaar. Vervang ze waar het kan door één woord:</p>
+  <table><tr><th>Uitdrukking</th><th>Eenvoudiger</th></tr>
+  <tr><td>met betrekking tot / in verband met</td><td>over</td></tr><tr><td>ten gevolge van / onder invloed van</td><td>door</td></tr>
+  <tr><td>ten behoeve van / ten gunste van</td><td>voor</td></tr><tr><td>naar aanleiding van</td><td>na, door, omdat</td></tr></table>`,
+  links:["vl","ta","vd"],
+  campus:"In een e-mail aan een docent of in een sollicitatiebrief valt een fout voorzetsel meteen op. Twijfel je? Zoek de combinatie op in Van Dale of bij Team Taaladvies.",
+  ex:[
+   {id:"1-2a",type:"gap",title:"Vul het juiste voorzetsel in",ins:"Typ één voorzetsel per zin.",items:[
+    {q:"Mijn zus is allergisch ___ noten.",a:"voor"},
+    {q:"De jury bestaat ___ drie docenten en een externe deskundige.",a:"uit"},
+    {q:"Haar taak bestaat ___ het controleren van de bronnen.",a:"in"},
+    {q:"Ik interesseer me vooral ___ klimaatwetenschap.",a:"voor"},
+    {q:"Hij is erg gevoelig ___ kritiek op zijn werk.",a:"voor"},
+    {q:"De trein reed ___ 120 km per uur door het station.",a:"met"},
+    {q:"Ze is geslaagd ___ haar rijexamen.",a:"voor"},
+    {q:"In zijn betoog verwijst hij ___ een recent onderzoek.",a:"naar"},
+    {q:"De minister onttrok zich ___ het debat.",a:"aan"},
+    {q:"Wij rekenen ___ jullie medewerking.",a:"op"}
+   ]},
+   {id:"1-2b",type:"gap",title:"Eén woord volstaat",ins:"Vervang de vetgedrukte voorzetseluitdrukking door één voorzetsel.",items:[
+    {q:"Ik stuur je een mail <b>met betrekking tot</b> het groepswerk. → ___",a:"over"},
+    {q:"<b>Ten gevolge van</b> de storm werd de les geschrapt. → ___",a:"door"},
+    {q:"De opbrengst van de quiz is <b>ten behoeve van</b> een lokaal goed doel. → ___",a:"voor"},
+    {q:"Ik heb nog een vraag <b>in verband met</b> de deadline. → ___",a:"over"},
+    {q:"Er was een benefiet <b>ten gunste van</b> de dierenopvang. → ___",a:"voor"}
+   ]}
+  ]},
+ {id:"1-3",title:"Strakke zinnen",
+  lead:"Een eindredacteur schrapt wat zwaar en omslachtig is: naamwoordstijl, te veel passieve zinnen en losse voorzetselconstructies.",
+  theory:`<h4>1. Het voornaamwoordelijk bijwoord</h4>
+  <p>Een voornaamwoordelijk bijwoord combineert <i>er, hier, daar, waar, (n)ergens, overal</i> met een voorzetsel: <i>erop, daarmee, waaraan</i>. Het vervangt een voorzetsel + naamwoord: <i>Hij zit erop</i> = <i>Hij zit op de stoel</i>.</p>
+  <p><b>Aaneen of los?</b> Vormen het voorzetsel en het naamwoord samen één zinsdeel, dan schrijf je aaneen: <i>Ze klom op de kast en sprong <b>daarvanaf</b></i> (= van de kast). Hoort het voorzetsel bij het werkwoord, dan schrijf je los: <i>Ze sportte veel en viel <b>daarvan af</b></i> (afvallen).</p>
+  <h4>2. Naamwoordstijl</h4>
+  <p>Je gebruikt te veel zelfstandige naamwoorden die van een werkwoord komen (<i>het herstel, de verbetering, het aanvragen</i>). De tekst wordt daardoor afstandelijk.</p>
+  <p class="ex-s">Het indienen van de aanvraag dient te geschieden vóór 1 maart. → Dien de aanvraag in vóór 1 maart.</p>
+  <h4>3. Passivitis</h4>
+  <p>In een actieve zin voert het onderwerp de handeling uit: <i>De architect ontwierp het museum.</i> In een passieve zin ondergaat het onderwerp de handeling: <i>Het museum werd door de architect ontworpen.</i> Wie de handeling uitvoert, is dan het <b>handelend voorwerp</b> (altijd met <i>door</i>). Een passieve zin is niet fout, maar een stapel passieve zinnen maakt je tekst traag. Kies bij voorkeur actief, zodat de lezer meteen weet wie iets doet.</p>`,
+  links:["ta","vl","ans"],
+  campus:"In een laboverslag of een wetenschappelijk artikel is het passief wel functioneel: wie de proef uitvoert doet er niet toe (‘De oplossing werd verwarmd tot 60 °C’). In een betoog, een persbericht of een sollicitatiebrief kies je beter actief.",
+  ex:[
+   {id:"1-3a",type:"gap",title:"Gebruik een voornaamwoordelijk bijwoord",ins:"Vervang het deel tussen haakjes door één voornaamwoordelijk bijwoord.",items:[
+    {q:"Kijk eens onder de bank: volgens mij ligt je oplader ___ (onder de bank).",a:["eronder","daaronder"]},
+    {q:"___ (aan wat) heb jij meegewerkt?",a:"waaraan"},
+    {q:"We moeten dit bedrag ___ (bij het totaal) optellen.",a:["erbij","daarbij"]},
+    {q:"Ik ben ___ (van het feit) overtuigd dat zij gelijk heeft.",a:"ervan"},
+    {q:"Na de les gaan we ___ (naar deze documentaire) kijken.",a:["hiernaar","daarnaar","ernaar"]}
+   ]},
+   {id:"1-3b",type:"open",title:"Redigeer de zinnen",ins:"Herschrijf zonder naamwoordstijl en, waar het kan, actief. Vergelijk daarna met het modelantwoord. (Niet in de score.)",
+    fields:[
+     {l:"1. Het indienen van de taak dient vóór vrijdag te gebeuren.",m:"Je moet de taak vóór vrijdag indienen. / Dien de taak vóór vrijdag in."},
+     {l:"2. Er werd door de leerlingenraad een enquête georganiseerd.",m:"De leerlingenraad organiseerde een enquête."},
+     {l:"3. De verbetering van de leesvaardigheid is een prioriteit van de school.",m:"De school wil de leesvaardigheid van haar leerlingen verbeteren."},
+     {l:"4. Door de stad wordt overwogen om een autovrije zone in te voeren.",m:"De stad overweegt een autovrije zone in te voeren."},
+     {l:"5. Na de bespreking van de resultaten volgde de beslissing tot de aankoop van laptops.",m:"Nadat ze de resultaten hadden besproken, besloten ze laptops te kopen."}
+    ]}
+  ]},
+ {id:"1-4",title:"Tussenletters en klankvalkuilen",
+  lead:"Pannenkoek of pannekoek? Apetrots of apentrots? Eén hoofdregel en drie uitzonderingen helpen je.",
+  theory:`<p><b>Hoofdregel.</b> Je schrijft <b>-en-</b> als het linkerdeel een zelfstandig naamwoord is met een meervoud op <i>-en</i> (en niet op <i>-es</i>): <i>hond → honden → hondenhok</i>. In alle andere gevallen schrijf je <b>-e-</b>: <i>machine → machines → machinekamer</i>, <i>groente → groentes → groentesoep</i>.</p>
+  <p><b>Drie uitzonderingen: je schrijft -e-</b></p>
+  <ul><li><b>Maneschijnregel</b>: het linkerdeel is uniek, er bestaat er maar één van: <i>maneschijn, zonnebloem, Onze-Lieve-Vrouwekerk</i>.</li>
+  <li><b>Papegaairegel</b>: je ziet het woord niet meer als samenstelling: <i>papegaai, hagedis, schattebout</i>.</li>
+  <li><b>Beresterkregel</b>: het linkerdeel versterkt het rechterdeel en samen vormen ze een bijvoeglijk naamwoord. Je kunt het linkerdeel vervangen door <i>heel, erg, zeer</i>: <i>beresterk, apetrots, reuzeleuk, stekeblind</i>.</li></ul>
+  <p><b>Ei/ij en au/ou</b> volgen geen regel: <i>leiden</i> (de weg wijzen) ≠ <i>lijden</i> (pijn verdragen). Bij twijfel zoek je op.</p>
+  <p><b>Beknopte bijzin.</b> Het onderwerp van de beknopte bijzin moet hetzelfde zijn als dat van de hoofdzin. <span class="ex-s">Fout: Naar huis rijdend, hield de politie hen tegen. (De politie reed niet naar huis.) Juist: Toen ze naar huis reden, hield de politie hen tegen.</span></p>`,
+  links:["leidraad","gb","vl"],
+  campus:"Ook in vaktaal kom je tussenletters tegen: <i>ruggengraat</i> (biologie), <i>zonnestelsel</i> (fysica), <i>groentesoep</i>… Een spellingfout in een paper of verslag kost je geloofwaardigheid, ook al gaat het vak niet over taal.",
+  ex:[
+   {id:"1-4a",type:"choice",title:"-e- of -en-?",ins:"Kies de juiste tussenletter(s).",items:[
+    {q:"padd___stoel",o:["e","en"],a:1,w:"paddenstoel: meervoud padden."},
+    {q:"rugg___graat",o:["e","en"],a:1,w:"ruggengraat: meervoud ruggen."},
+    {q:"zonn___bloem",o:["e","en"],a:0,w:"zonnebloem: maneschijnregel, er is maar één zon."},
+    {q:"pap___gaai",o:["e","en"],a:0,w:"papegaai: papegaairegel, versteende samenstelling."},
+    {q:"reuz___leuk",o:["e","en"],a:0,w:"reuzeleuk: beresterkregel (= heel leuk)."},
+    {q:"reuz___rad",o:["e","en"],a:1,w:"reuzenrad: hoofdregel, meervoud reuzen; hier is ‘reus’ geen versterking."},
+    {q:"ap___trots",o:["e","en"],a:0,w:"apetrots: beresterkregel (= heel trots)."},
+    {q:"ap___kooi",o:["e","en"],a:1,w:"apenkooi: hoofdregel, meervoud apen."},
+    {q:"groent___soep",o:["e","en"],a:0,w:"groentesoep: meervoud ook op -s (groentes) → -e-."},
+    {q:"stek___blind",o:["e","en"],a:0,w:"stekeblind: beresterkregel (= helemaal blind)."}
+   ]}
+  ]},
+ {id:"1-5",title:"Koppeltekens, apostrofs en afkortingen",
+  lead:"Tv-programma, pincode, gsm’loos: wanneer schrijf je aaneen, met koppelteken of met apostrof?",
+  theory:`<table><tr><th>Soort</th><th>Wat?</th><th>Voorbeelden</th></tr>
+  <tr><td>Initiaalwoord</td><td>Je spreekt letter per letter uit.</td><td>tv, gsm, cd, VRT, NMBS</td></tr>
+  <tr><td>Letterwoord</td><td>Je spreekt het uit als een woord.</td><td>aids, pin, horeca, NAVO, Benelux</td></tr></table>
+  <p><b>Samenstellingen</b></p>
+  <ul><li>Met een initiaalwoord: koppelteken → <i>tv-scherm, sms-bericht, NMBS-trein</i>.</li>
+  <li>Met een letterwoord zonder hoofdletters: aaneen → <i>pincode, ledlamp, horecazaak</i>.</li>
+  <li>Met een letterwoord met hoofdletters: koppelteken → <i>NAVO-top, Benelux-land</i>.</li>
+  <li>Klinkerbotsing: altijd koppelteken → <i>airco-installatie, info-avond</i>.</li>
+  <li>Met cijfers of losse letters: koppelteken → <i>18-jarige, A4-formaat, T-shirt, 3D-printer</i>.</li></ul>
+  <p><b>Afleidingen</b></p>
+  <ul><li>Van een initiaalwoord: apostrof → <i>VTM’er, gsm’loos, cd’tje, sms’en</i>.</li>
+  <li>Maar met <i>-achtig, -dom, -heid, -schap</i>: koppelteken → <i>VTM-achtig</i>.</li>
+  <li>Van een letterwoord zonder hoofdletters: gewoon aaneen → <i>pinnen</i>.</li></ul>`,
+  links:["leidraad","gb","ta"],
+  campus:"In wetenschappelijke teksten en verslagen kom je veel afkortingen tegen: <i>pH-waarde, DNA-test, btw-tarief, cao-overleg</i>. Hetzelfde systeem geldt overal.",
+  ex:[
+   {id:"1-5a",type:"gap",title:"Schrijf correct",ins:"Typ het woord correct: aaneen, met koppelteken of met apostrof.",items:[
+    {q:"tv + scherm → ___",a:"tv-scherm"},
+    {q:"pin + code → ___",a:"pincode"},
+    {q:"NAVO + top → ___",a:"NAVO-top"},
+    {q:"gsm + loos → ___",a:"gsm'loos"},
+    {q:"sms + en (werkwoord) → ___",a:"sms'en"},
+    {q:"VRT + journalist → ___",a:"VRT-journalist"},
+    {q:"horeca + zaak → ___",a:"horecazaak"},
+    {q:"18 + jarige → ___",a:"18-jarige"},
+    {q:"cd + tje → ___",a:"cd'tje"},
+    {q:"VTM + achtig → ___",a:"VTM-achtig"},
+    {q:"airco + installatie → ___",a:"airco-installatie"},
+    {q:"A4 + formaat → ___",a:"A4-formaat"}
+   ]}
+  ]},
+ {id:"1-6",title:"Spellingsprint",
+  lead:"Tien woorden die vaak fout geschreven worden. Kies telkens de juiste spelling.",
+  theory:`<p>Leenwoorden, klinkerbotsingen en meervouden op <i>-'s</i> zijn klassieke struikelblokken.</p>
+  <ul><li><b>Leenwoorden</b> behouden vaak hun oorspronkelijke spelling: <i>piranha, graffiti, paparazzo</i>.</li>
+  <li><b>Klinkerbotsing in een samenstelling</b> → koppelteken: <i>twee-eiig, zee-egel</i>.</li>
+  <li><b>Meervoud op -'s</b> na een medeklinker + y: <i>lobby's, hobby's</i>.</li>
+  <li><b>Engelse werkwoorden</b> volgen de Nederlandse regels: <i>coachen → gecoacht</i> (’t kofschip: ch = /tsj/, stemloos).</li></ul>
+  <p class="ex-s">Strategie: twijfel je, dan zoek je op in het Groene Boekje. Een goede eindredacteur twijfelt vaak en zoekt nog vaker op.</p>`,
+  links:["gb","vl"],
+  campus:"Op Team Taaladvies vind je gratis spellingtests per thema. Ideaal om je voor te bereiden op een taaltoets in het hoger onderwijs.",
+  ex:[
+   {id:"1-6a",type:"choice",layout:"row",title:"Spellingsprint: tien woorden",ins:"Kies de juiste spelling.",items:[
+    {q:"a",o:["acoustiek","akoestiek","akoustiek"],a:1},
+    {q:"b",o:["piranha","piranja","pirania"],a:0},
+    {q:"c",o:["graffity","graffitti","graffiti"],a:2},
+    {q:"d",o:["papparazzo","paparazzo","paparrazzo"],a:1},
+    {q:"e",o:["carrousel","caroussel","carroussel"],a:0},
+    {q:"f",o:["lobbies","lobbys","lobby's"],a:2},
+    {q:"g",o:["tweeëiig","twee-eiig","twee-ëiig"],a:1},
+    {q:"h",o:["tenauwernood","ternauwernood","ter nauwernood"],a:1},
+    {q:"i",o:["gecoachd","gecoached","gecoacht"],a:2},
+    {q:"j",o:["Valentijnskaart","valentijnskaart","Valentijns-kaart"],a:1}
+   ]}
+  ]},
+ {id:"1-7",title:"Eindopdracht: het bericht van de redactie",
+  lead:"Je hebt een weekendjob bij een regionale nieuwssite. De redacteur stuurt je een bericht dat nog vol fouten staat.",
+  theory:`<p>Pas alles toe wat je in deze desk leerde: werkwoordspelling, betekenis en spelling, voorzetsels, tussenletters en koppeltekens/apostrofs.</p>
+  <ol class="steps"><li>Lees de tekst eerst helemaal.</li><li>Klik op elk woord dat volgens jou fout is. Het woord wordt geel.</li><li>Typ onder de tekst de correcte vorm.</li><li>Klik op <b>Controleer</b>. Je krijgt een punt per correct verbeterde fout. Een correct woord dat je als fout aanduidt, kost een punt.</li></ol>`,
+  links:["gb","ta"],
+  campus:"Zo werk je ook bij het nalezen van je bachelorproef of je stageverslag: eerst inhoud, dan per ronde één soort fout (werkwoorden, spelling, leestekens).",
+  ex:[
+   {id:"1-7a",type:"proof",title:"Redigeer het bericht",ins:"Er staan twaalf fouten in de tekst. Vind en verbeter ze.",
+    head:"Kotjacht in Leuven: ‘Het is een echte zoektocht’",
+    text:"De zoektocht naar een betaalbare studentenkamer {word|wordt} elk jaar moeilijker. Sara (18) {verhuisd|verhuist} in september naar Leuven en heeft al tien kamers {bezichtigt|bezichtigd}. ‘De meeste kamers waren allesbehalve gezellig’, vertelt ze. Ze is vooral geïnteresseerd {voor|in} een kamer met een eigen keuken. Gisteren {sms-te|sms'te} een verhuurder haar dat er een plaats vrij was in een {studentehuis|studentenhuis} vlak bij de campus. Helaas was de kamer al {verhuurt|verhuurd} toen ze aankwam. {Hoe lang|Hoelang} ze nog moet zoeken, weet ze niet. Haar moeder is {apentrots|apetrots} op haar doorzettingsvermogen. Volgens de huurdersvereniging is er in Leuven een groot {te kort|tekort} aan kamers onder de 500 euro. De stad heeft beloofd dat ze extra koten zal bouwen, maar dat project {leid|leidt} voorlopig tot weinig resultaat. Een VRT-journalist die het dossier volgt, noemt de situatie {schrijnent|schrijnend}."}
+  ]}
+ ]},
+/* ------------------------------------------------------------------ */
+{id:"teal",cls:"d-teal",name:"Gesprekstafel",orig:"Taal in interactie",
+ sub:"Je oefent gesprekken die je op school, op stage en in je studie nodig hebt: adviseren, feedback geven, speechen, reflecteren.",
+ lessons:[
+ {id:"2-1",title:"Adviseren in drie fasen",
+  lead:"Een goed adviesgesprek begint niet met advies, maar met luisteren.",
+  theory:`<ol class="steps">
+  <li><b>Verkenningsfase.</b> De adviseur luistert naar de vraag en stelt verduidelijkende vragen. Doorvragen is cruciaal: waarom is dit een probleem? Daarna vat de adviseur samen om te controleren of alles goed begrepen is.</li>
+  <li><b>Adviesfase.</b> De adviseur geeft advies en wacht op een reactie. Komt er weerstand, dan gaat de adviseur in op de tegenargumenten. Ook een (te) snelle ‘ja’ is verdacht: misschien wil de adviesvrager het gesprek gewoon afronden.</li>
+  <li><b>Besprekingsfase.</b> Samen bespreek je de voor- en nadelen. Is het advies haalbaar? Voelt de adviesvrager zich er goed bij? Pas dan rond je af.</li></ol>`,
+  links:["vl","ot"],
+  campus:"Op stage (zorg, onderwijs, personeelsbeleid…) of in een studentenjob als begeleider voer je zulke gesprekken echt. Hogescholen en universiteiten gebruiken vaak hetzelfde driefasenmodel in hun opleidingen.",
+  dialog:{title:"Gesprek bij de leerlingenbegeleider",lines:[
+   ["Mevrouw Claes","Dag Elias, kom binnen. Je mailde dat je even wilde praten?"],
+   ["Elias","Ja. Ik weet eigenlijk niet goed waar ik moet beginnen. Ik voel me de laatste tijd nogal overspoeld."],
+   ["Mevrouw Claes","Overspoeld. Kun je dat wat meer uitleggen? Wanneer voel je dat het sterkst?"],
+   ["Elias","Vooral 's avonds. Ik werk drie avonden per week in een restaurant, en daarna moet ik nog studeren. Ik slaap amper."],
+   ["Mevrouw Claes","Hoe komt het dat je zoveel werkt?"],
+   ["Elias","Ik wil sparen om volgend jaar op kot te gaan in Gent. Mijn ouders kunnen dat niet helemaal betalen."],
+   ["Mevrouw Claes","Dus je werkt veel om je studie van volgend jaar voor te bereiden, maar daardoor lijdt je studie van nu eronder. Heb ik dat goed begrepen?"],
+   ["Elias","Ja, precies. En mijn punten gaan achteruit. Wat zou u me aanraden?"]]},
+  ex:[
+   {id:"2-1a",type:"choice",layout:"list",title:"Begrijp je het gesprek?",ins:"Lees of beluister het gesprek en beantwoord de vragen.",items:[
+    {q:"Wat is het eigenlijke probleem van Elias?",o:["Hij wil niet verder studeren.","Hij combineert te veel werk met studeren en raakt uitgeput.","Hij heeft ruzie met zijn ouders.","Hij vindt Gent te ver."],a:1},
+    {q:"Hoe achterhaalt de begeleider het waarom van het probleem?",o:["Ze geeft meteen een advies.","Ze vertelt over haar eigen ervaring.","Ze vraagt door en stelt verduidelijkende vragen.","Ze verwijst hem door naar een psycholoog."],a:2},
+    {q:"Waarom zegt de begeleider ‘Dus je werkt veel om …’?",o:["Om te controleren of ze hem goed begrepen heeft.","Om hem te bekritiseren.","Om het gesprek af te sluiten.","Om haar advies in te leiden."],a:0},
+    {q:"In welke fase situeer je dit fragment?",o:["De verkenningsfase","De adviesfase","De besprekingsfase"],a:0},
+    {q:"Is Elias klaar voor advies?",o:["Nee, de begeleider weet nog te weinig.","Ja, hij vraagt er zelf om.","Nee, hij biedt weerstand."],a:1}
+   ]},
+   {id:"2-1b",type:"open",title:"Rollenspel: zet het gesprek verder",ins:"Werk in duo’s. Speel de adviesfase en de besprekingsfase. De adviesvrager biedt weerstand en is niet meteen bereid het advies te volgen. Wissel daarna van rol met een situatie uit jullie eigen leefwereld (studiekeuze, vakantiejob, sportclub …). Noteer kort.",
+    fields:[{l:"Welk advies gaf de adviseur?"},{l:"Welke weerstand kwam er en hoe ging de adviseur op de tegenargumenten in?"},{l:"Welke voor- en nadelen besprak je in de besprekingsfase?"},{l:"Jullie eigen situatie: wat was de adviesvraag?"}]}
+  ]},
+ {id:"2-2",title:"Het wandelgesprek",
+  lead:"Hoe gebruiken je klasgenoten media? Je komt het te weten door rond te wandelen en goede vragen te stellen.",
+  theory:`<p>Thema: <b>mediagebruik</b>, zoals series, podcasts, video’s en sociale media.</p>
+  <ol class="steps"><li>Wandel rond in de klas en spreek iemand aan met wie je minder vaak praat.</li>
+  <li>Stel om de beurt vragen over jullie mediagebruik. Noteer bondig vragen en antwoorden.</li>
+  <li>Spreek met minstens drie klasgenoten (± 5 minuten).</li>
+  <li>Ga zitten en denk drie minuten na: welk antwoord verraste je het meest? Welke gelijkenissen en verschillen zie je?</li>
+  <li>Klasgesprek van vijf minuten onder leiding van je leerkracht.</li></ol>
+  <p><b>Gesprekstip.</b> Een <b>open vraag</b> (wie, wat, waarom, hoe …) levert meer informatie op dan een <b>gesloten vraag</b>, waarop je enkel ja of nee antwoordt. Vraag door: ‘Hoe bedoel je?’, ‘Kun je een voorbeeld geven?’</p>`,
+  links:["ot"],
+  campus:"Een wandelgesprek lijkt op een kleinschalig interview of een kwalitatief onderzoek (sociologie, communicatiewetenschappen, marketing). Goede open vragen leveren betere gegevens op.",
+  ex:[
+   {id:"2-2a",type:"choice",title:"Open of gesloten vraag?",ins:"Welke vragen leveren het meeste gespreksstof op?",items:[
+    {q:"Kijk jij vaak series?",o:["open","gesloten"],a:1},
+    {q:"Welke serie heeft jou het voorbije jaar het meest verrast?",o:["open","gesloten"],a:0},
+    {q:"Hoe kies je wat je gaat kijken of beluisteren?",o:["open","gesloten"],a:0},
+    {q:"Heb je een abonnement op een streamingdienst?",o:["open","gesloten"],a:1},
+    {q:"Waarom kijk je liever alleen dan met vrienden?",o:["open","gesloten"],a:0},
+    {q:"Zit je meer dan twee uur per dag op sociale media?",o:["open","gesloten"],a:1}
+   ]},
+   {id:"2-2b",type:"open",title:"Noteerfiche wandelgesprek",ins:"Vul in tijdens en na het wandelgesprek.",
+    fields:[{l:"Gesprekspartner 1: vragen en antwoorden"},{l:"Gesprekspartner 2: vragen en antwoorden"},{l:"Gesprekspartner 3: vragen en antwoorden"},{l:"Het antwoord dat me het meest verraste"},{l:"Mijn conclusie: gelijkenissen en verschillen"}]}
+  ]},
+ {id:"2-3",title:"Feedback geven en ontvangen",
+  lead:"Feedback is pas bruikbaar als de ander begrijpt wat er mis ging en wat er beter kan.",
+  theory:`<div class="cards">
+  <div class="rcard"><b>Ik-ik-jij-methode</b><br>1. Benoem wat je waarneemt, zonder oordeel. (‘Ik zag dat …’)<br>2. Leg uit wat het gevolg is. (‘Ik merk dat dat …’)<br>3. Check of de ander je begrijpt. (‘Hoe zie jij dat?’)</div>
+  <div class="rcard"><b>4G-methode</b><br><b>Gedrag</b>: wat doet de ander?<br><b>Gevoel</b>: wat doet dat met jou?<br><b>Gevolg</b>: wat is het effect?<br><b>Gewenst gedrag</b>: wat wil je voortaan zien?</div>
+  <div class="rcard"><b>Feedforward</b><br>Je kijkt vooruit en focust op oplossingen: ‘Hoe ga je nu verder?’, ‘Welke eerste stap zet je?’, ‘Wat doe je als je afgeleid raakt?’</div></div>`,
+  links:["ot"],
+  campus:"In het hoger onderwijs krijg je voortdurend feedback: op papers, presentaties en stages. Wie er goed mee omgaat (luisteren, doorvragen, een plan maken), groeit sneller. Ook peerfeedback in groepswerk is standaard.",
+  ex:[
+   {id:"2-3a",type:"match",title:"Welk onderdeel herken je?",ins:"Koppel elke uitspraak aan het juiste onderdeel van de 4G-methode of aan feedforward.",
+    opts:["Gedrag","Gevoel","Gevolg","Gewenst gedrag","Feedforward"],items:[
+    {q:"‘Ik merk dat je de laatste drie keer te laat op de repetitie kwam.’",a:"Gedrag"},
+    {q:"‘Dat geeft me het gevoel dat de band voor jou niet zo belangrijk is.’",a:"Gevoel"},
+    {q:"‘Daardoor moeten we telkens opnieuw beginnen en verliezen we tijd.’",a:"Gevolg"},
+    {q:"‘Ik zou graag hebben dat je voortaan om half acht klaarstaat.’",a:"Gewenst gedrag"},
+    {q:"‘Welke eerste stap zet je om je planning rond te krijgen?’",a:"Feedforward"},
+    {q:"‘Ik zag dat de affiches voor de fuif nog niet gedrukt zijn.’",a:"Gedrag"},
+    {q:"‘Als de promotie te laat start, komen er minder bezoekers.’",a:"Gevolg"},
+    {q:"‘Hoe pak je het de volgende keer aan als je afgeleid raakt?’",a:"Feedforward"}
+   ]},
+   {id:"2-3b",type:"open",title:"Van verwijt naar feedback + rollenspel",ins:"Herschrijf het verwijt volgens de 4G-methode. Speel daarna een rollenspel: jullie organiseren een fuif (zaal, dj, affiches, sociale media) en niet alles loopt naar wens. Kies één methode en geef feedback.",
+    fields:[
+     {l:"Verwijt: ‘Jij bent ook altijd te laat met je deel van het groepswerk!’ → 4G-versie",m:"Ik merk dat jouw deel van het groepswerk de voorbije twee keer na de afgesproken datum binnenkwam (gedrag). Dat maakt me wat ongerust (gevoel), want daardoor kunnen wij de presentatie niet op tijd afwerken (gevolg). Zou je je deel voortaan ten laatste op maandagavond kunnen doorsturen? (gewenst gedrag)"},
+     {l:"Rollenspel: welke methode koos je en waarom?"},
+     {l:"Hoe reageerde de ontvanger? Wat zou je de volgende keer anders doen?"}]}
+  ]},
+ {id:"2-4",title:"Het woord nemen: de proclamatiespeech",
+  lead:"Aan het einde van het secundair houdt iemand een afscheidsspeech. Hoe zit een goede speech in elkaar?",
+  theory:`<ul><li><b>Aanspreking</b>: begroet je publiek (directie, leerkrachten, ouders, klasgenoten).</li>
+  <li><b>Inleiding</b>: trek de aandacht met een herinnering, een beeld of een anekdote.</li>
+  <li><b>Kern</b>: terugblik (wat hebben we geleerd en beleefd?) en dankwoord.</li>
+  <li><b>Slot</b>: een vooruitblik, een wens of een krachtige zin die blijft hangen.</li></ul>
+  <p>Een <b>beeld dat terugkomt</b> (een reis, een boek met hoofdstukken, een trap) maakt je speech samenhangend. Spreek in de wij-vorm, varieer je tempo en maak oogcontact.</p>`,
+  links:["vl"],
+  campus:"Presenteren hoort bij elke opleiding: een pitch, een posterpresentatie, de verdediging van je bachelorproef. Dezelfde opbouw (aandacht, kern, krachtig slot) werkt overal.",
+  text:{title:"Een voorbeeldspeech",src:"Voorbeeldtekst, nieuw geschreven voor deze module",body:`<p>Beste directie, leerkrachten, ouders en vooral: beste klasgenoten,</p>
+  <p>Zes jaar geleden stapten we deze school binnen met een te grote boekentas en een plattegrond die we toch niet begrepen. Vandaag staan we hier met een diploma op zak, en die plattegrond hebben we al lang niet meer nodig.</p>
+  <p>Onze schooltijd was als een lange treinrit. Soms reden we op volle snelheid, soms stonden we stil tussen twee stations – meestal vlak voor een examenperiode. Maar we zaten wel samen in dezelfde wagon. We leerden plannen, doorzetten en, niet onbelangrijk, om hulp vragen. Wie herinnert zich niet de nacht voor de deadline van de geïntegreerde proef?</p>
+  <p>Daarom een woord van dank. Aan onze leerkrachten, die ons niet alleen leerstof bijbrachten, maar ook vertrouwen. Aan onze ouders, die elke ochtend opnieuw de wekker zetten. En aan elkaar, omdat niemand deze rit alleen had kunnen maken.</p>
+  <p>Straks stappen we elk op een andere trein: naar de hogeschool, de universiteit of de werkvloer. Ik wens jullie een reis met weinig vertraging en veel mooie uitzichten. Proficiat, iedereen!</p>`},
+  ex:[
+   {id:"2-4a",type:"choice",layout:"list",title:"Analyseer de speech",ins:"Beantwoord de vragen over de voorbeeldspeech.",items:[
+    {q:"Hoe opent de spreker?",o:["Met een grap over een leerkracht","Met een aanspreking van het hele publiek","Met een citaat van een beroemd persoon","Met een vraag aan de ouders"],a:1},
+    {q:"Welk beeld loopt als een rode draad door de speech?",o:["Een boek met hoofdstukken","Een trap naar boven","Een treinrit","Een voetbalmatch"],a:2},
+    {q:"Wat is de functie van de alinea die begint met ‘Daarom een woord van dank’?",o:["De spreker bedankt verschillende groepen.","De spreker vat de leerstof samen.","De spreker geeft kritiek op de school.","De spreker kondigt het programma aan."],a:0},
+    {q:"Hoe sluit de spreker af?",o:["Met een samenvatting van de punten","Met een vooruitblik en een wens die het beeld van de trein terugbrengt","Met een vraag aan het publiek","Met een opsomming van alle klasgenoten"],a:1}
+   ]},
+   {id:"2-4b",type:"open",title:"Schrijf jullie eigen speech",ins:"Werk per vier. Laat je inspireren door de voorbeeldspeech, maar kopieer niet. Schrijf een speech op maat van jullie school. Breng hem voor de klas en bespreek hem klassikaal.",
+    fields:[{l:"Aanspreking en inleiding (welk beeld kiezen jullie?)",r:4},{l:"Kern: terugblik en dankwoord",r:6},{l:"Slot: vooruitblik en wens",r:3},{l:"Klasfeedback: wat vond je top?"},{l:"Wat vond je iets minder?"},{l:"Wat zou je zeker anders doen?"}]}
+  ]},
+ {id:"2-5",title:"Reflecteren met het Johari-venster",
+  lead:"Schat je jezelf correct in? Een reflectiegesprek helpt je om ook je blinde vlekken te zien.",
+  theory:`<div class="johari">
+   <div class="hd"></div><div class="hd">bekend bij jezelf</div><div class="hd">onbekend bij jezelf</div>
+   <div class="hd">bekend bij anderen</div><div class="q4"><b>Open</b><br>wat jij en anderen van jou weten</div><div class="q4"><b>Blind</b><br>wat anderen zien, maar jij niet</div>
+   <div class="hd">onbekend bij anderen</div><div class="q4"><b>Verborgen</b><br>wat jij weet, maar niet toont</div><div class="q4"><b>Onbekend</b><br>wat niemand (nog) weet</div></div>
+  <p><b>Ik-boodschappen.</b> Wil je iemand wijzen op gedrag dat jou hindert? Formuleer wat jij voelt en nodig hebt. Zo klinkt het niet als een beschuldiging.</p>
+  <p class="ex-s">Jij-boodschap: ‘Wat maak jij weer een lawaai! Houdt dat getelefoneer nooit op?’<br>Ik-boodschap: ‘Ik wil dit verslag graag afwerken voor de vergadering. Ik word afgeleid door je telefoongesprekken. Zou je even in de kamer hiernaast kunnen bellen?’</p>`,
+  links:["ot"],
+  campus:"In veel opleidingen hou je een portfolio of reflectieverslag bij (stage, praktijk, studieloopbaan). Een eerlijke analyse van sterke punten en werkpunten is daar de kern.",
+  ex:[
+   {id:"2-5a",type:"choice",title:"Johari en ik-boodschappen",ins:"Bij welk kwadrant hoort de uitspraak? En is het een ik- of een jij-boodschap?",items:[
+    {q:"‘Ik vind mezelf een goede planner, en mijn groepsgenoten zien dat ook.’",o:["open","blind","verborgen","onbekend"],a:0},
+    {q:"‘Anderen merken dat ik vaak onderbreek, maar zelf heb ik dat niet door.’",o:["open","blind","verborgen","onbekend"],a:1},
+    {q:"‘Ik ben zenuwachtig voor presentaties, maar ik laat dat nooit merken.’",o:["open","blind","verborgen","onbekend"],a:2},
+    {q:"‘Niemand weet hoe ik zou reageren als ik ooit een groot team moet leiden, ik ook niet.’",o:["open","blind","verborgen","onbekend"],a:3},
+    {q:"‘Jij luistert ook nooit naar wat ik zeg!’",o:["ik-boodschap","jij-boodschap"],a:1},
+    {q:"‘Ik verlies mijn concentratie als er muziek speelt. Wil je je koptelefoon opzetten?’",o:["ik-boodschap","jij-boodschap"],a:0},
+    {q:"‘Waarom moet jij altijd het laatste woord hebben?’",o:["ik-boodschap","jij-boodschap"],a:1},
+    {q:"‘Ik voel me niet gehoord als mijn voorstel niet besproken wordt. Kunnen we het op de agenda zetten?’",o:["ik-boodschap","jij-boodschap"],a:0}
+   ]},
+   {id:"2-5b",type:"open",title:"Mijn reflectiegesprek",ins:"Duid individueel je sterke en minder sterke punten aan bij lezen, luisteren/kijken, schrijven, spreken en gesprekken voeren. Ga daarna in gesprek met een kleine groep. Focus op het kwadrant ‘blind’ en gebruik ik-boodschappen.",
+    fields:[{l:"Mijn sterke punten"},{l:"Mijn werkpunten"},{l:"Wat anderen zagen dat ik zelf niet zag (blind)"},{l:"Tips die ik kreeg en tips die ik gaf"},{l:"Mijn actiepunt voor de komende weken"}]}
+  ]}
+ ]},
+/* ------------------------------------------------------------------ */
+{id:"indigo",cls:"d-indigo",name:"Zinsbouwatelier",orig:"Functionele spraakkunst",
+ sub:"Grammatica als gereedschap: wie de bouw van een zin begrijpt, schrijft foutloos en helder.",
+ lessons:[
+ {id:"3-1",title:"Woordsoorten aan het werk",
+  lead:"Het Nederlands kent tien woordsoorten. Sommige woorden wisselen van rol, afhankelijk van de zin.",
+  theory:`<table><tr><th>Woordsoort</th><th>Voorbeelden</th><th>Woordsoort</th><th>Voorbeelden</th></tr>
+  <tr><td>werkwoord</td><td>studeren, hebben</td><td>bijwoord</td><td>morgen, daar, heel</td></tr>
+  <tr><td>zelfstandig naamwoord</td><td>labo, idee</td><td>lidwoord</td><td>de, het, een</td></tr>
+  <tr><td>bijvoeglijk naamwoord</td><td>snel, gouden</td><td>telwoord</td><td>drie, beide, tiende</td></tr>
+  <tr><td>voornaamwoord</td><td>die, mijn, iedereen</td><td>voegwoord</td><td>omdat, hoewel, en</td></tr>
+  <tr><td>voorzetsel</td><td>tijdens, naast, door</td><td>tussenwerpsel</td><td>au, hoera, oei</td></tr></table>
+  <p><b>Wisselende rol.</b> <i>Goed</i> is een bijvoeglijk naamwoord in ‘een goede speler’, maar een bijwoord in ‘Hij speelt goed’. Een bijwoord zegt iets over een werkwoord, een bijvoeglijk naamwoord, een ander bijwoord of de hele zin, en verandert niet van vorm. Daarom: <i>een <b>heel</b> grote ontgoocheling</i> (heel = bijwoord bij ‘grote’), maar <i>de <b>hele</b> dag</i> (hele = bijvoeglijk naamwoord bij ‘dag’).</p>
+  <p><b>Persoonlijk of bezittelijk voornaamwoord?</b> Een persoonlijk voornaamwoord verwijst naar iemand (<i>jij, jou, u</i>). Een bezittelijk voornaamwoord zegt van wie iets is (<i>jouw, uw, mijn</i>).</p>`,
+  links:["ans","ta"],
+  campus:"In vreemde talen (Frans, Engels, Latijn) en in de taalkunde aan de universiteit werk je met dezelfde termen. Wie ze nu beheerst, leert sneller een nieuwe taal.",
+  ex:[
+   {id:"3-1a",type:"match",title:"Welke woordsoort?",ins:"Bepaal de woordsoort van het vetgedrukte woord.",
+    opts:["werkwoord","zelfstandig naamwoord","bijvoeglijk naamwoord","bijwoord","voornaamwoord","lidwoord","telwoord","voegwoord","voorzetsel","tussenwerpsel"],items:[
+    {q:"De <b>laborant</b> noteert de resultaten.",a:"zelfstandig naamwoord"},
+    {q:"Ze <b>noteert</b> de resultaten.",a:"werkwoord"},
+    {q:"Het was een <b>ingewikkelde</b> proef.",a:"bijvoeglijk naamwoord"},
+    {q:"We werken <b>morgen</b> verder.",a:"bijwoord"},
+    {q:"<b>Iedereen</b> droeg een labojas.",a:"voornaamwoord"},
+    {q:"Er waren <b>drie</b> proefbuisjes gebroken.",a:"telwoord"},
+    {q:"We stopten <b>omdat</b> het alarm afging.",a:"voegwoord"},
+    {q:"Leg de bril <b>naast</b> de microscoop.",a:"voorzetsel"},
+    {q:"<b>Au</b>, dat glas is heet!",a:"tussenwerpsel"},
+    {q:"Neem <b>het</b> statief van de kast.",a:"lidwoord"}
+   ]},
+   {id:"3-1b",type:"choice",title:"Kies de juiste vorm",ins:"Let op de woordsoort.",items:[
+    {q:"Is dit ___ rekenmachine?",o:["jou","jouw"],a:1,w:"Van wie? → bezittelijk voornaamwoord."},
+    {q:"Ik geef het boek terug aan ___.",o:["jou","jouw"],a:0,w:"Persoonlijk voornaamwoord na een voorzetsel."},
+    {q:"Wilt u ___ studentenkaart tonen?",o:["u","uw"],a:1,w:"Bezittelijk: de kaart van u."},
+    {q:"Mag ik ___ even storen?",o:["u","uw"],a:0,w:"Persoonlijk voornaamwoord."},
+    {q:"Het was een ___ spannende finale.",o:["heel","hele"],a:0,w:"Bijwoord bij het bijvoeglijk naamwoord ‘spannende’: onveranderlijk."},
+    {q:"Hij heeft de ___ dag geleerd.",o:["heel","hele"],a:1,w:"Bijvoeglijk naamwoord bij ‘dag’."},
+    {q:"Ze reed <b>voorzichtig</b> naar huis. ‘Voorzichtig’ is hier een …",o:["bijvoeglijk naamwoord","bijwoord"],a:1,w:"Het zegt iets over het werkwoord ‘reed’."},
+    {q:"Zijn vrouw is altijd <b>voorzichtig</b>. ‘Voorzichtig’ is hier een …",o:["bijvoeglijk naamwoord","bijwoord"],a:0,w:"Het noemt een eigenschap van ‘zijn vrouw’ (naamwoordelijk deel van het gezegde)."}
+   ]}
+  ]},
+ {id:"3-2",title:"Het bijvoeglijk naamwoord",
+  lead:"Bijvoeglijke naamwoorden geven je tekst kleur. Maar wanneer krijgen ze een -e?",
+  theory:`<p>Een bijvoeglijk naamwoord noemt een eigenschap. Het kan bij een zelfstandig naamwoord staan (<i>een <b>inspirerende</b> docent</i>) of deel zijn van het gezegde (<i>De docent is <b>inspirerend</b></i>). De meeste bijvoeglijke naamwoorden hebben trappen van vergelijking: <i>mooi – mooier – mooist</i>.</p>
+  <p><b>Buigings-e: wel</b></p>
+  <ul><li>bij meervoud: <i>dure auto’s, leuke feestjes</i></li><li>bij een enkelvoudig de-woord: <i>de gele bloem, een nieuwe directeur</i></li><li>bij een enkelvoudig het-woord na <i>het</i>, <i>dit/dat</i> of een bezittelijk voornaamwoord: <i>het oude kasteel, haar nieuwe boek</i></li></ul>
+  <p><b>Buigings-e: niet</b> bij een enkelvoudig het-woord na <i>een, geen, elk, ieder, veel, weinig, zo’n, welk</i> of zonder lidwoord: <i>een oud kasteel, zo’n gezellig café, Belgisch bier</i>.</p>
+  <p><b>Voltooid deelwoord als bijvoeglijk naamwoord.</b> Gebruik je een voltooid deelwoord bij een zelfstandig naamwoord, dan buig je het als een gewoon bijvoeglijk naamwoord. Let op: die vorm is niet dezelfde als de verleden tijd.</p>
+  <p class="ex-s">De tuinman <b>verbreedde</b> het pad (verleden tijd: verbreed + de). → het <b>verbrede</b> pad (verbreed + e).</p>`,
+  links:["ans","ta","gb"],
+  campus:"In beschrijvende teksten (een reisgids voor toerisme, een productbeschrijving voor marketing, een recensie) bepalen bijvoeglijke naamwoorden de toon. In een wetenschappelijke tekst gebruik je ze juist spaarzaam en precies.",
+  ex:[
+   {id:"3-2a",type:"gap",title:"Een citytrip naar Gent",ins:"Vul de juiste vorm in van het bijvoeglijk naamwoord tussen haakjes.",items:[
+    {q:"Gent is een ___ (boeiend) stad",a:"boeiende"},
+    {q:"met ___ (smal) straatjes",a:"smalle"},
+    {q:"en ___ (historisch) gebouwen.",a:"historische"},
+    {q:"Je kunt er genieten van ___ (lokaal) bieren",a:"lokale"},
+    {q:"en ___ (verrassend) gerechten.",a:"verrassende"},
+    {q:"Het ___ (middeleeuws) Gravensteen",a:"middeleeuwse"},
+    {q:"is een ___ (indrukwekkend) kasteel.",a:"indrukwekkend"},
+    {q:"Wie ___ (Belgisch) bier wil proeven,",a:"Belgisch"},
+    {q:"zoekt best een ___ (gezellig) café op.",a:"gezellig"},
+    {q:"En vergeet de ___ (beroemd) Gentse neuzen niet!",a:"beroemde"}
+   ]},
+   {id:"3-2b",type:"choice",title:"Verleden tijd of bijvoeglijk naamwoord?",ins:"Kies de juiste vorm.",items:[
+    {q:"De agent ___ de foto.",o:["vergrootte","vergrote"],a:0,w:"Persoonsvorm in de verleden tijd: vergroot + te."},
+    {q:"De ___ foto hing aan de muur.",o:["vergrootte","vergrote"],a:1,w:"Bijvoeglijk gebruikt voltooid deelwoord: vergroot + e."},
+    {q:"Ze ___ alle mails nog dezelfde dag.",o:["beantwoordde","beantwoorde"],a:0,w:"Verleden tijd: beantwoord + de."},
+    {q:"Ze bewaarde een kopie van de ___ mails.",o:["beantwoordde","beantwoorde"],a:1,w:"Bijvoeglijk naamwoord: beantwoord + e."},
+    {q:"Het vliegtuig ___ veilig.",o:["landde","lande"],a:0,w:"Verleden tijd: land + de."},
+    {q:"Het ___ vliegtuig werd meteen nagekeken.",o:["gelandde","gelande"],a:1,w:"Bijvoeglijk naamwoord: geland + e."}
+   ]}
+  ]},
+ {id:"3-3",title:"Werkwoordspelling zonder valkuilen",
+  lead:"Bekent of bekend? Verhuist of verhuisd? Bij werkwoorden met be-, ge-, ver-, ont-, er-, her- en mis- loert het gevaar.",
+  theory:`<p>Bij werkwoorden zoals <i>bekennen, geloven, verbazen, ontwikkelen, erkennen, herinneren, miskennen</i> klinken de persoonsvorm en het voltooid deelwoord hetzelfde (<b>homofonen</b>), maar je spelt ze verschillend: <i>Hij beken<b>t</b>.</i> ≠ <i>Hij heeft beken<b>d</b>.</i></p>
+  <ol class="steps"><li><b>Zoek eerst de persoonsvorm.</b> Maak de zin vragend: het woord dat vooraan komt, is de persoonsvorm.</li>
+  <li><b>Is het woord de persoonsvorm?</b> Pas de analogie toe: vervang door <i>lopen</i> of <i>werken</i>. ‘Hij werk<b>t</b>’ → ‘Hij verander<b>t</b>’.</li>
+  <li><b>Is het een voltooid deelwoord?</b> Pas ’t kofschip toe of verleng het woord: <i>veranderd → de veranderde wereld</i>.</li></ol>`,
+  links:["leidraad","vl","ta"],
+  campus:"Werkwoordfouten zijn de meest opvallende fouten in een mail, verslag of sollicitatiebrief. Je toont met deze strategie dat je functionele grammatica echt kunt gebruiken.",
+  ex:[
+   {id:"3-3a",type:"gap",title:"Persoonsvorm of voltooid deelwoord?",ins:"Vul de juiste vorm in van het werkwoord tussen haakjes.",items:[
+    {q:"In 1990 werd Duitsland ___ (herenigen).",a:"herenigd"},
+    {q:"Mijn zus ___ (veranderen) voortdurend van mening.",a:"verandert"},
+    {q:"Hij heeft zijn fout eindelijk ___ (erkennen).",a:"erkend"},
+    {q:"De verdachte ___ (ontkennen) elke betrokkenheid.",a:"ontkent"},
+    {q:"Wanneer ben je ___ (verhuizen)?",a:"verhuisd"},
+    {q:"Ik heb hem nooit ___ (geloven).",a:"geloofd"},
+    {q:"De onderzoeker ___ (ontwikkelen) een nieuwe test.",a:"ontwikkelt"},
+    {q:"Wie ___ (beantwoorden) de vraag?",a:"beantwoordt"},
+    {q:"Ze heeft die prijs echt ___ (verdienen).",a:"verdiend"},
+    {q:"Hij ___ (vertrouwen) op zijn intuïtie.",a:"vertrouwt"},
+    {q:"Het museum is vorige maand ___ (heropenen).",a:"heropend"},
+    {q:"Mijn buurman ___ (beklagen) zich over het lawaai.",a:"beklaagt"}
+   ]}
+  ]},
+ {id:"3-4",title:"Zinnen koppelen",
+  lead:"Voegwoorden zijn de lijm van je tekst. Ze tonen het verband tussen je ideeën.",
+  theory:`<p>Een <b>enkelvoudige zin</b> heeft één persoonsvorm. Een <b>samengestelde zin</b> heeft er twee of meer: <i>Elke dag gamet Jef, maar op zondag <b>gaat</b> hij naar de scouts.</i></p>
+  <p><b>Voegwoorden</b> verbinden zinnen en drukken een verband uit: tegenstelling (<i>maar</i>), reden (<i>omdat, want</i>), keuze (<i>of</i>), toegeving (<i>hoewel</i>), gelijktijdigheid (<i>terwijl</i>), tijd (<i>toen, nadat</i>), gevolg/doel (<i>zodat</i>), voorwaarde (<i>als, tenzij, indien</i>).</p>
+  <table><tr><th>Nevenschikking</th><th>Onderschikking</th></tr>
+  <tr><td>Twee hoofdzinnen naast elkaar, met <b>d</b>us, <b>o</b>f, <b>e</b>n, <b>m</b>aar, <b>w</b>ant (DOEMW).<br><i>Ik blijf thuis, want ik <b>moet</b> studeren.</i><br>Vervang het voegwoord door een punt: je houdt twee goede zinnen over.</td>
+  <td>Een hoofdzin + een bijzin, met <i>omdat, nadat, toen, als, tenzij …</i><br><i>Ik blijf thuis omdat ik moet studeren.</i><br>In de bijzin staat de persoonsvorm achteraan. Maak de zin vragend: de vraag begint met de persoonsvorm van de hoofdzin.</td></tr></table>`,
+  links:["ans","ta"],
+  campus:"Vergelijk met het Engels en het Frans: ‘He left <i>because he had</i> no money’ / ‘Il ne vient pas <i>parce qu’il est</i> malade’. In het Nederlands schuift de persoonsvorm in de bijzin naar achteren: ‘omdat hij geen geld <b>had</b>’. In argumenterende teksten en essays zijn signaalwoorden en voegwoorden je belangrijkste instrument voor een heldere structuur.",
+  ex:[
+   {id:"3-4a",type:"match",title:"Welk verband?",ins:"Koppel elke zin aan het verband dat het voegwoord uitdrukt.",
+    opts:["tegenstelling","reden","keuze","toegeving","gelijktijdigheid","tijd","gevolg/doel","voorwaarde"],items:[
+    {q:"Ik wilde naar de les, <b>maar</b> de trein had vertraging.",a:"tegenstelling"},
+    {q:"Ze bleef thuis <b>omdat</b> ze haar presentatie wilde voorbereiden.",a:"reden"},
+    {q:"Kies je voor geschiedenis <b>of</b> ga je voor rechten?",a:"keuze"},
+    {q:"Hij slaagde, <b>hoewel</b> hij weinig had gestudeerd.",a:"toegeving"},
+    {q:"Ik maak notities <b>terwijl</b> de docent spreekt.",a:"gelijktijdigheid"},
+    {q:"We vertrokken <b>nadat</b> de laatste bus was aangekomen.",a:"tijd"},
+    {q:"Ze sprak luid, <b>zodat</b> iedereen haar kon verstaan.",a:"gevolg/doel"},
+    {q:"We gaan op uitstap, <b>tenzij</b> het onweert.",a:"voorwaarde"}
+   ]},
+   {id:"3-4b",type:"choice",title:"Nevenschikking of onderschikking?",ins:"Bepaal de soort samengestelde zin.",items:[
+    {q:"Ik blijf thuis, want ik moet studeren.",o:["nevenschikking","onderschikking"],a:0},
+    {q:"Ik blijf thuis omdat ik moet studeren.",o:["nevenschikking","onderschikking"],a:1},
+    {q:"Het regende, dus we bleven binnen.",o:["nevenschikking","onderschikking"],a:0},
+    {q:"Toen de bel ging, liep iedereen naar buiten.",o:["nevenschikking","onderschikking"],a:1},
+    {q:"Ze wil arts worden, maar ze twijfelt nog.",o:["nevenschikking","onderschikking"],a:0},
+    {q:"Als je vragen hebt, mail je de docent.",o:["nevenschikking","onderschikking"],a:1}
+   ]},
+   {id:"3-4c",type:"open",title:"Maak samengestelde zinnen",ins:"Verbind de twee zinnen met het gegeven voegwoord. Let op de plaats van de persoonsvorm. (Niet in de score: vergelijk zelf met het model.)",
+    fields:[
+     {l:"Ik ben nog moe. + Ik heb tien uur geslapen. (hoewel)",m:"Ik ben nog moe, hoewel ik tien uur geslapen heb."},
+     {l:"Je mag het labo binnen. + Je draagt een labojas. (op voorwaarde dat)",m:"Je mag het labo binnen op voorwaarde dat je een labojas draagt."},
+     {l:"Ze vond een job. + Ze had haar bachelor behaald. (nadat)",m:"Ze vond een job nadat ze haar bachelor had behaald."},
+     {l:"Ik wil om acht uur thuis zijn. + Het debat begint om half negen. (want)",m:"Ik wil om acht uur thuis zijn, want het debat begint om half negen."}]}
+  ]},
+ {id:"3-5",title:"Het werkwoord als regisseur",
+  lead:"Een regisseur bepaalt hoeveel acteurs een scène nodig heeft. Zo bepaalt het werkwoord hoeveel ‘rollen’ een zin nodig heeft.",
+  theory:`<div class="cards">
+  <div class="rcard"><b>1 rol</b><br>IEMAND slaapt.<br><span class="ex-s">De baby slaapt.</span> (onderwerp)</div>
+  <div class="rcard"><b>2 rollen</b><br>IEMAND eet IETS.<br><span class="ex-s">Het meisje eet een pizza.</span> (onderwerp + lijdend voorwerp)</div>
+  <div class="rcard"><b>3 rollen</b><br>IEMAND geeft IETS aan IEMAND.<br><span class="ex-s">De man geeft zijn vrouw een cadeau.</span> (+ meewerkend voorwerp)</div>
+  <div class="rcard"><b>Voorzetselvoorwerp</b><br>IEMAND wacht OP IETS.<br><span class="ex-s">De jongen wacht op de bus.</span> Het voorzetsel hoort vast bij het werkwoord.</div></div>
+  <p><b>Bijwoordelijke bepalingen</b> (BWB) geven extra informatie over tijd, plaats, reden, manier … Je kunt ze weglaten: <i><u>Gisteren</u> bezochten we <u>voor de derde keer</u> het museum <u>in Brussel</u>.</i></p>
+  <p><b>Hen of hun?</b> <i>Hen</i> gebruik je als lijdend voorwerp en na een voorzetsel (<i>Ik zag hen. Dit is voor hen.</i>). <i>Hun</i> gebruik je als meewerkend voorwerp zonder voorzetsel (<i>Ik gaf hun een boek.</i>). In minder formele teksten kun je ook <i>ze</i> gebruiken.</p>`,
+  links:["ans","ta","vl"],
+  campus:"Een woordenboek als Van Dale vermeldt bij elk werkwoord welke voorwerpen en voorzetsels het nodig heeft. In formele teksten (een brief aan een instantie, een verslag) valt een fout tegen hen/hun op.",
+  ex:[
+   {id:"3-5a",type:"match",title:"Hoeveel rollen?",ins:"Hoeveel rollen heeft het werkwoord nodig voor een goede zin?",
+    opts:["1 rol: iemand …","2 rollen: iemand … iets/iemand","3 rollen: iemand … iets aan iemand","met voorzetselvoorwerp: iemand … op/aan/van iets"],items:[
+    {q:"slapen",a:"1 rol: iemand …"},{q:"blaffen",a:"1 rol: iemand …"},{q:"huilen",a:"1 rol: iemand …"},
+    {q:"kopen",a:"2 rollen: iemand … iets/iemand"},{q:"kussen",a:"2 rollen: iemand … iets/iemand"},
+    {q:"geven",a:"3 rollen: iemand … iets aan iemand"},{q:"overhandigen",a:"3 rollen: iemand … iets aan iemand"},{q:"sturen",a:"3 rollen: iemand … iets aan iemand"},
+    {q:"wachten",a:"met voorzetselvoorwerp: iemand … op/aan/van iets"},{q:"denken",a:"met voorzetselvoorwerp: iemand … op/aan/van iets"},{q:"houden",a:"met voorzetselvoorwerp: iemand … op/aan/van iets"},{q:"zich verheugen",a:"met voorzetselvoorwerp: iemand … op/aan/van iets"}
+   ]},
+   {id:"3-5b",type:"choice",title:"Hen of hun?",ins:"Kies de juiste vorm in formele taal.",items:[
+    {q:"Ik heb ___ gisteren nog gezien.",o:["hen","hun"],a:0,w:"Lijdend voorwerp."},
+    {q:"De coach gaf ___ een compliment.",o:["hen","hun"],a:1,w:"Meewerkend voorwerp (aan hen)."},
+    {q:"Dit cadeau is voor ___.",o:["hen","hun"],a:0,w:"Na een voorzetsel."},
+    {q:"De docent legde ___ de opdracht uit.",o:["hen","hun"],a:1,w:"Meewerkend voorwerp."},
+    {q:"Iedereen bewonderde ___.",o:["hen","hun"],a:0,w:"Lijdend voorwerp."},
+    {q:"Vraag het maar aan ___.",o:["hen","hun"],a:0,w:"Na een voorzetsel."},
+    {q:"De tranen sprongen ___ in de ogen.",o:["hen","hun"],a:1,w:"Meewerkend voorwerp (bij wie?)."},
+    {q:"We hebben ___ niets beloofd.",o:["hen","hun"],a:1,w:"‘Niets’ is het lijdend voorwerp; ‘hun’ is meewerkend voorwerp."}
+   ]}
+  ]}
+ ]},
+/* ------------------------------------------------------------------ */
+{id:"ochre",cls:"d-ochre",name:"Woordkracht",orig:"Rijke taal",
+ sub:"Je leest teksten uit wetenschap, psychologie en economie en bouwt een woordenschat op voor je hogere studies.",
+ lessons:[
+ {id:"4-1",title:"Dossier wetenschap: gedachten lezen",
+  lead:"Een groot internationaal onderzoek naar empathie. Lees de tekst, test je begrip en leer de vaktaal.",
+  theory:`<p><b>Leesstrategie.</b> Lees eerst de titel en de eerste alinea: wat is het onderwerp? Markeer daarna per alinea de kernzin. Onbekende woorden probeer je eerst uit de context af te leiden en pas daarna zoek je ze op.</p>`,
+  links:["vd","ans"],
+  campus:"In psychologie, biologie en sociale wetenschappen lees je vaak onderzoeksverslagen. Let altijd op <b>de steekproef</b> (wie werd onderzocht?) en op <b>de beperkingen</b> die de onderzoekers zelf noemen.",
+  text:{title:"Wie leest gedachten het best?",src:"Informatieve tekst, nieuw geschreven voor deze module",body:`<p>Kun je aan iemands ogen zien wat die denkt? Volgens een grootschalig onderzoek lukt dat vrouwen gemiddeld iets beter dan mannen, en dat in bijna alle landen waar de test werd afgenomen.</p>
+  <p>Psychologen onderscheiden twee vormen van empathie. Bij emotionele empathie voel je mee met iemand: je bent zelf aangedaan als een vriendin verdriet heeft. Bij cognitieve empathie begrijp je met je verstand wat er in een ander omgaat. Je snapt bijvoorbeeld dat een collega die net een tegenslag kreeg, zich minder goed kan concentreren. Beide vormen gaan doorgaans samen, maar ze zijn niet hetzelfde. Ze zijn wel allebei onmisbaar in elke sociale interactie.</p>
+  <p>Eerdere studies wezen al in dezelfde richting, maar ze werkten vaak met een kleine steekproef met weinig variatie in leeftijd of herkomst. Daarom bundelde een internationaal onderzoeksteam de gegevens van honderdduizenden deelnemers uit tientallen landen. De deelnemers zagen telkens een foto van enkel de ogen van een persoon en moesten kiezen welk woord het best beschreef wat die persoon dacht of voelde. In de meeste landen scoorden vrouwen significant hoger.</p>
+  <p>Waar dat verschil vandaan komt, is nog niet duidelijk. Sommige onderzoekers denken aan biologische factoren, zoals hormonen. Anderen wijzen op de opvoeding: meisjes worden in veel culturen van jongs af aan geconditioneerd om aandacht te hebben voor de noden van anderen, terwijl een sterke fixatie op andermans gevoelens bij jongens minder verwacht wordt. Opvallend is dat het verschil groter is in collectivistische samenlevingen, waar de groep centraal staat, dan in landen die sterk op het individu gericht zijn.</p>
+  <p>De onderzoekers wijzen zelf op een zwakke plek. De test toonde enkel gezichten van witte personen en was alleen beschikbaar voor wie Engels kende en een computer had. Voor minder bemiddelde of niet-Engelstalige landen kunnen de resultaten dus vertekend zijn.</p>`},
+  ex:[
+   {id:"4-1a",type:"choice",layout:"list",title:"Leestest",ins:"Kies telkens het beste antwoord.",items:[
+    {q:"Wat is de hoofdgedachte van de tekst?",o:["Vrouwen zijn emotioneler dan mannen.","Een grote internationale studie bevestigt dat vrouwen gemiddeld beter zijn in cognitieve empathie, al heeft de studie beperkingen.","Empathie is volledig aangeboren.","Mannen kunnen geen gedachten lezen."],a:1},
+    {q:"Wat is het verschil tussen cognitieve en emotionele empathie?",o:["Cognitieve empathie is sterker dan emotionele empathie.","Bij cognitieve empathie begrijp je met je verstand wat een ander denkt; bij emotionele empathie voel je mee.","Emotionele empathie komt enkel bij vrouwen voor.","Er is geen verschil, het zijn twee woorden voor hetzelfde."],a:1},
+    {q:"Waarom was deze nieuwe studie nodig?",o:["Eerdere studies hadden kleine en weinig diverse steekproeven.","Eerdere studies kwamen tot het omgekeerde resultaat.","Er was nog nooit onderzoek naar empathie gedaan.","De oude test was te moeilijk."],a:0},
+    {q:"Wat weten de onderzoekers over de oorzaak van het verschil?",o:["Het komt zeker door hormonen.","Het komt zeker door de opvoeding.","Er zijn verschillende mogelijke verklaringen; de oorzaak is nog niet bekend.","Het verschil bestaat alleen in individualistische landen."],a:2},
+    {q:"Waarom moet je de conclusies voorzichtig interpreteren?",o:["De onderzoekers waren niet objectief.","De test toonde enkel witte gezichten en was niet voor iedereen toegankelijk.","Er deden te weinig vrouwen mee.","De resultaten waren niet significant."],a:1}
+   ]},
+   {id:"4-1b",type:"match",title:"Woordenschat uit de tekst",ins:"Koppel elk woord aan de juiste betekenis.",items:[
+    {q:"steekproef",a:"een beperkte groep die je onderzoekt om iets te zeggen over een grotere groep"},
+    {q:"fixatie",a:"je aandacht zo sterk op één ding richten dat de rest naar de achtergrond verdwijnt"},
+    {q:"collectivistisch",a:"gericht op de groep of de gemeenschap"},
+    {q:"significant",a:"zo groot dat het niet aan toeval te wijten is"},
+    {q:"cognitief",a:"wat met het denken en het verstand te maken heeft"},
+    {q:"bemiddeld",a:"met voldoende geld en bezit om ruim te leven"},
+    {q:"empathie",a:"inlevingsvermogen in de gedachten en gevoelens van anderen"},
+    {q:"geconditioneerd",a:"aangeleerd om op een bepaalde manier te reageren"},
+    {q:"vertekend",a:"niet helemaal overeenkomend met de werkelijkheid"},
+    {q:"doorgaans",a:"meestal, op enkele uitzonderingen na"}
+   ]},
+   {id:"4-1c",type:"open",title:"Vat de tekst samen",ins:"Schrijf een samenvatting van maximaal 80 woorden in een doorlopende tekst. Gebruik je eigen woorden. Vermeld het onderwerp, de belangrijkste bevinding, de mogelijke verklaringen en de beperking.",
+    fields:[{l:"Mijn samenvatting",r:6,m:"Een grote internationale studie met honderdduizenden deelnemers toont aan dat vrouwen gemiddeld beter kunnen inschatten wat iemand denkt of voelt (cognitieve empathie). Dat verschil is in de meeste landen merkbaar en groter in samenlevingen die op de groep gericht zijn. Over de oorzaak bestaat geen zekerheid: zowel biologie als opvoeding kunnen een rol spelen. De test had wel beperkingen, waardoor de resultaten niet voor alle landen representatief zijn."}]}
+  ]},
+ {id:"4-2",title:"Dossier psychologie: bang op vakantie",
+  lead:"Waarom duiken kleine angsten net op reis op? Een tekst vol woorden die je in elke psychologiecursus terugvindt.",
+  theory:`<p><b>Woorden ontleden.</b> Veel vakwoorden zijn opgebouwd uit Griekse of Latijnse bouwstenen. <i>-fobie</i> (Grieks <i>phobos</i>) betekent ‘angst’. Ken je het eerste deel, dan raad je de betekenis: <i>hydro</i> = water, <i>dento</i> = tand, <i>micro</i> = klein, <i>numero</i> = getal, <i>octo</i> = acht.</p>`,
+  links:["vd","ot"],
+  campus:"Bij geneeskunde, verpleegkunde en psychologie leer je honderden termen met Griekse en Latijnse wortels. Het loont om bouwstenen te leren in plaats van losse woorden.",
+  text:{title:"Bang op vakantie",src:"Informatieve tekst, nieuw geschreven voor deze module",body:`<p>Je gaat op reis om te ontspannen, en net dan duikt een angst op die je thuis nauwelijks merkt. Een hoge brug, een kabelbaan, een spin in de badkamer van je hotel: het overkomt meer mensen dan je denkt. Psychologen vinden dat helemaal niet bizar. Op reis stap je uit je comfortzone, de omgeving waarin alles vertrouwd aanvoelt, en dan ontdek je soms angsten die je in het dagelijkse leven niet per se hinderen.</p>
+  <p>Ongeveer de helft van de mensen rapporteert dat ze zich ongemakkelijk voelen bij grote hoogtes, diep water of lange bruggen. Wie echt bang is voor bruggen, lijdt aan gefyrofobie. Sommigen plannen hun route zo dat ze elke grote brug vermijden. Slechts een kleine groep heeft er zoveel last van dat therapie nodig is.</p>
+  <p>Zo’n angst bestaat uit verschillende componenten. Het lichamelijke aspect is vaak het meest beklijvend: je hart gaat sneller slaan, je voelt kriebels in je rug en sommige mensen beginnen te hyperventileren. Daarnaast verandert je gedrag: je klampt je vast aan de reling of je rijdt plots stapvoets over de brug.</p>
+  <p>Wat helpt? Therapeuten brengen eerst het vermijdingsgedrag in kaart en bouwen dat daarna stap voor stap af: je zoekt de situatie bewust op, eerst in kleine stappen. Ook rationaliseren werkt. Angst wordt vaak aangewakkerd door irrationele wat-als-scenario’s in je hoofd. Intrigerend is dat films daarbij een rol spelen: wie ooit een haaienfilm zag, is soms jarenlang opgezadeld met een angst om in diep zeewater te zwemmen.</p>`},
+  ex:[
+   {id:"4-2a",type:"choice",layout:"list",title:"Leestest en woordanalyse",ins:"Kies telkens het beste antwoord.",items:[
+    {q:"Waarom duiken angsten volgens de tekst vaak op reis op?",o:["Omdat je op reis meer gevaar loopt.","Omdat je uit je vertrouwde omgeving stapt.","Omdat je op reis slechter slaapt.","Omdat reisorganisaties angst aanwakkeren."],a:1},
+    {q:"Welke twee componenten van angst beschrijft de tekst?",o:["Een lichamelijke en een gedragscomponent","Een financiële en een sociale component","Een erfelijke en een culturele component","Een bewuste en een onbewuste component"],a:0},
+    {q:"Wat doen therapeuten eerst?",o:["Ze schrijven medicatie voor.","Ze raden aan de situatie te vermijden.","Ze brengen het vermijdingsgedrag in kaart.","Ze tonen een haaienfilm."],a:2},
+    {q:"Wat betekent ‘dentofobie’?",o:["Angst voor tandartsen","Angst voor diep water","Angst voor kleine dingen","Angst voor getallen"],a:0},
+    {q:"Wat betekent ‘microfobie’?",o:["Angst voor microfoons","Angst voor kleine dingen","Angst voor bacteriën in de microgolf","Angst voor de toekomst"],a:1}
+   ]},
+   {id:"4-2b",type:"gap",title:"Welk woord past?",ins:"Typ het woord uit de tekst dat bij de omschrijving past. Gebruik de woordenbank.",
+    bank:["comfortzone","beklijvend","hyperventileren","vermijdingsgedrag","rationaliseren","aanwakkeren","irrationeel","per se"],items:[
+    {q:"toestand waarin alles vertrouwd aanvoelt → ___",a:"comfortzone"},
+    {q:"wat lang blijft hangen, een blijvende indruk maakt → ___",a:"beklijvend"},
+    {q:"te snel en te diep ademen → ___",a:"hyperventileren"},
+    {q:"gedrag waarmee je onaangename situaties uit de weg gaat → ___",a:"vermijdingsgedrag"},
+    {q:"iets verklaren met de rede, met je verstand → ___",a:"rationaliseren"},
+    {q:"aansporen, sterker maken → ___",a:"aanwakkeren"},
+    {q:"in strijd met het gezond verstand → ___",a:"irrationeel"},
+    {q:"noodzakelijkerwijs, in elk geval → ___",a:["per se","perse"]}
+   ]}
+  ]},
+ {id:"4-3",title:"Dossier economie: een opiniestuk lezen",
+  lead:"Een opiniestuk wil je overtuigen. Lees kritisch: wat is het standpunt, welke argumenten krijg je en wat zegt de tegenpartij?",
+  theory:`<p><b>Kritisch lezen van een betoog</b></p>
+  <ul><li><b>Standpunt</b>: wat vindt de schrijver? Vaak staat dat in de titel, de inleiding of het slot.</li>
+  <li><b>Argumenten</b>: welke redenen geeft de schrijver? Zijn het feiten (controleerbaar) of meningen?</li>
+  <li><b>Tegenargumenten</b>: houdt de schrijver rekening met andere visies?</li>
+  <li><b>Signaalwoorden</b>: <i>toch, natuurlijk, maar, daarom, mijn conclusie</i> tonen de opbouw.</li></ul>`,
+  links:["vd","ta"],
+  campus:"In economie, politieke wetenschappen en rechten moet je standpunten kunnen analyseren én weerleggen. Lees daarom altijd ook een andere stem voor je zelf een mening vormt.",
+  text:{title:"Talent kent geen grenzen",src:"Opiniestuk, nieuw geschreven voor deze module",body:`<p>Wat hebben enkele van de grootste technologiebedrijven ter wereld gemeen? Behalve hun omvang (het zijn echte giganten) staat er opvallend vaak een immigrant aan het roer. Ook in de wetenschap, de zorg en de culinaire wereld zouden we het zonder mensen die elders geboren zijn moeilijk redden.</p>
+  <p>Toch krijgen we in het debat over migratie vaak een eenzijdig verhaal geserveerd. Wie de evidentie naast elkaar legt, ziet een genuanceerder beeld: migratie kan economisch rendabel zijn, maar dat gebeurt niet vanzelf. Landen die er het meest uit halen, investeren in taalonderwijs, erkennen buitenlandse diploma’s snel en geven nieuwkomers echte opportuniteiten op de arbeidsmarkt.</p>
+  <p>Daar wringt bij ons het schoentje. Wie een vreemde naam of een buitenlands diploma heeft, moet vaak harder knokken voor een job. Dat is niet alleen onrechtvaardig, het is ook economisch onverstandig. Natuurlijk moet illegale migratie aangepakt worden, maar dat debat mag het andere niet overschaduwen.</p>
+  <p>Mijn conclusie: als we onze welvaart willen behouden, moeten we internationaal talent omarmen in plaats van wantrouwen. Niet omdat het gemakkelijk is, maar omdat het loont.</p>
+  <div class="counter"><b>Een andere stem.</b> Een econoom reageert: ‘Dat nieuwkomers kunnen bijdragen, betwist niemand. Maar de opvang, de huisvesting en de scholen zitten in veel gemeenten nu al aan hun capaciteit. Wie meer migratie wil, moet eerst die voorzieningen op orde brengen. Anders worden zowel nieuwkomers als bewoners de dupe.’</div>`},
+  ex:[
+   {id:"4-3a",type:"choice",layout:"list",title:"Analyseer het opiniestuk",ins:"Kies telkens het beste antwoord.",items:[
+    {q:"Wat is het standpunt van de schrijver?",o:["Migratie moet zo veel mogelijk beperkt worden.","We moeten internationaal talent omarmen en nieuwkomers echte kansen geven.","Technologiebedrijven moeten meer belastingen betalen.","Illegale migratie is geen probleem."],a:1},
+    {q:"Welke uitspraak is een controleerbaar feit, geen mening?",o:["‘Dat is economisch onverstandig.’","‘We moeten internationaal talent omarmen.’","‘Sommige landen erkennen buitenlandse diploma’s sneller dan andere.’","‘Het loont.’"],a:2},
+    {q:"Welke voorwaarde noemt de schrijver om migratie rendabel te maken?",o:["Enkel hoogopgeleiden toelaten","Investeren in taalonderwijs, diploma’s erkennen en kansen bieden","De grenzen sluiten","Technologiebedrijven subsidiëren"],a:1},
+    {q:"Wat is de kern van de andere stem?",o:["Nieuwkomers dragen niets bij.","De schrijver liegt over technologiebedrijven.","Eerst moeten de voorzieningen zoals huisvesting en scholen op orde zijn.","Taalonderwijs is overbodig."],a:2}
+   ]},
+   {id:"4-3b",type:"match",title:"Woordenschat uit het opiniestuk",ins:"Koppel elk woord aan de juiste betekenis.",items:[
+    {q:"giganten",a:"kolossaal grote bedrijven"},
+    {q:"immigrant",a:"iemand die zich vestigt in een land waar hij niet geboren is"},
+    {q:"culinair",a:"wat de kookkunst betreft"},
+    {q:"serveren",a:"opdienen, voorschotelen"},
+    {q:"evidentie",a:"bewijsmateriaal, gegevens die iets aantonen"},
+    {q:"rendabel",a:"wat winst of voordeel oplevert"},
+    {q:"opportuniteit",a:"kans, gelegenheid"},
+    {q:"omarmen",a:"hartelijk verwelkomen, aanvaarden"},
+    {q:"illegaal",a:"in strijd met de wet"}
+   ]}
+  ]},
+ {id:"4-4",title:"Woordenschat: politiek en samenleving",
+  lead:"Volg je het nieuws, dan kom je deze woorden elke dag tegen. Ken je hun precieze betekenis?",
+  theory:`<p>Politieke en maatschappelijke woordenschat is vaktaal: elk woord heeft een precieze betekenis. Een <i>formateur</i> is iets anders dan een <i>informateur</i>, en een <i>kartel</i> is iets anders dan een <i>coalitie</i>.</p>`,
+  links:["vd","vl"],
+  campus:"In geschiedenis, aardrijkskunde, economie en zeker in politieke wetenschappen of rechten is deze woordenschat basiskennis. Ook in nieuwsbegrip en debatten gebruik je ze voortdurend.",
+  ex:[
+   {id:"4-4a",type:"match",title:"Politieke woordenschat",ins:"Koppel elk woord aan de juiste verklaring.",items:[
+    {q:"electoraal",a:"wat te maken heeft met verkiezingen"},
+    {q:"lijstduwer",a:"bekende kandidaat op de laatste plaats van een kieslijst"},
+    {q:"lijsttrekker",a:"eerste kandidaat op de kieslijst"},
+    {q:"kiesdrempel",a:"minimumpercentage stemmen om zetels te krijgen"},
+    {q:"fractie",a:"groep verkozenen van één partij in het parlement"},
+    {q:"coalitie",a:"samenwerking van partijen om samen een regering te vormen"},
+    {q:"kartel",a:"afspraak tussen partijen om samen naar de verkiezingen te trekken"},
+    {q:"informateur",a:"politicus die nagaat welke regeringsvorming mogelijk is"},
+    {q:"formateur",a:"politicus die de regering effectief samenstelt"},
+    {q:"communautair",a:"wat te maken heeft met de relaties tussen de gemeenschappen"}
+   ]}
+  ]},
+ {id:"4-5",title:"Beeldspraak: spreekwoorden en gezegden",
+  lead:"Beeldende taal maakt je tekst levendig, maar je moet de vaste vorm en de figuurlijke betekenis kennen.",
+  theory:`<table><tr><th>Spreekwoord</th><th>Gezegde</th></tr>
+  <tr><td>Een korte, volledige zin die een wijsheid bevat.<br><i>Als het kalf verdronken is, dempt men de put.</i></td><td>Een vaste uitdrukking die geen zin is, maar een zinsdeel, meestal zonder wijsheid.<br><i>op de valreep</i> = op het laatste moment</td></tr></table>
+  <p>Een spreekwoord is <b>onveranderlijk</b>: je zet het werkwoord niet in een andere tijd, je voegt geen woorden toe en je vervangt geen woorden.</p>
+  <p class="ex-s">Fout: Als het jongste kalf verdronken was, dempte men de diepste put.</p>`,
+  links:["vd","ot"],
+  campus:"In literatuurlessen, journalistiek en marketing speel je met beeldspraak. In een wetenschappelijke tekst ga je er spaarzaam mee om: daar kies je voor precieze, letterlijke taal.",
+  ex:[
+   {id:"4-5a",type:"match",title:"Spreekwoorden",ins:"Koppel het spreekwoord aan de betekenis.",items:[
+    {q:"Als het kalf verdronken is, dempt men de put.",a:"pas maatregelen nemen als het al te laat is"},
+    {q:"Als twee honden vechten om een been, loopt de derde ermee heen.",a:"een derde profiteert van de ruzie tussen twee anderen"},
+    {q:"Zo gaan er dertien in een dozijn.",a:"dat is heel gewoon, niets bijzonders"},
+    {q:"De beste stuurlui staan aan wal.",a:"kritiek geven is makkelijker dan het zelf beter doen"},
+    {q:"De morgenstond heeft goud in de mond.",a:"wie vroeg begint, krijgt veel gedaan"},
+    {q:"Eigen haard is goud waard.",a:"nergens is het zo goed als thuis"},
+    {q:"Nieuwe bezems vegen schoon.",a:"nieuwkomers pakken alles grondig aan"},
+    {q:"Na regen komt zonneschijn.",a:"na moeilijke tijden volgen betere"}
+   ]},
+   {id:"4-5b",type:"gap",title:"Gezegden",ins:"Vul het passende gezegde in. Gebruik de woordenbank.",
+    bank:["met hart en ziel","op de valreep","een open deur intrappen","met de hand op het hart","door merg en been","een vrolijke frans"],items:[
+    {q:"Ze zette zich ___ in voor het project. (met volle toewijding)",a:"met hart en ziel"},
+    {q:"Hij schreef zich ___ nog in voor de cursus. (op het laatste moment)",a:"op de valreep"},
+    {q:"Zeggen dat studeren tijd kost, is ___. (iets vanzelfsprekends zeggen)",a:"een open deur intrappen"},
+    {q:"Ze beloofde ___ dat ze zou komen. (heel stellig)",a:"met de hand op het hart"},
+    {q:"Haar gil ging ___. (heel doordringend)",a:"door merg en been"},
+    {q:"Hij laat zich door geen tegenslag ontmoedigen: hij is ___. (altijd vrolijk)",a:["een vrolijke frans","een vrolijke Frans"]}
+   ]}
+  ]},
+ {id:"4-6",title:"Latijn en Frans op de campus",
+  lead:"Ad valvas, cum laude, carte blanche: in het hoger onderwijs en in formele teksten duiken ze voortdurend op.",
+  theory:`<p>Het Nederlands leende veel uitdrukkingen uit het <b>Latijn</b> (de taal van de wetenschap en het recht) en uit het <b>Frans</b> (lange tijd de taal van de elite en de diplomatie). Je gebruikt ze vooral in formele teksten. Ze tonen hoe talen elkaar beïnvloeden.</p>
+  <p class="ex-s">Let op de spelling: Latijnse en Franse uitdrukkingen schrijf je los en zonder hoofdletter, tenzij in een vaste vorm met koppeltekens (va-et-vient, vis-à-vis).</p>`,
+  links:["gb","vd"],
+  campus:"Op de universiteit hangt je examenrooster <i>ad valvas</i>, studeer je af <i>cum laude</i> en lees je in een vonnis over een advocaat <i>pro Deo</i>. Wie de termen kent, voelt zich sneller thuis.",
+  ex:[
+   {id:"4-6a",type:"match",title:"Latijnse uitdrukkingen",ins:"Koppel de uitdrukking aan de betekenis.",items:[
+    {q:"pro Deo",a:"gratis, kosteloos"},
+    {q:"ad rem",a:"gevat, raak"},
+    {q:"in spe",a:"toekomstig"},
+    {q:"in casu",a:"in dit geval"},
+    {q:"contradictio in terminis",a:"een tegenspraak in de woorden zelf"},
+    {q:"stante pede",a:"op staande voet, onmiddellijk"},
+    {q:"cum laude",a:"met onderscheiding"},
+    {q:"ad hoc",a:"speciaal voor dit ene geval"},
+    {q:"ad valvas",a:"op het mededelingenbord"},
+    {q:"a priori",a:"op voorhand, vooraf"}
+   ]},
+   {id:"4-6b",type:"gap",title:"Franse uitdrukkingen",ins:"Vul de passende Franse uitdrukking in. Gebruik de woordenbank.",
+    bank:["pur sang","en passant","beau monde","avant la lettre","carte blanche","au fond"],items:[
+    {q:"Met zoveel talent is zij een atlete ___. (van het zuiverste water)",a:"pur sang"},
+    {q:"___ vertelde hij dat hij verhuisd was. (terloops)",a:"en passant"},
+    {q:"De ___ van de stad was aanwezig op de première. (de betere kringen)",a:"beau monde"},
+    {q:"Hij maakte al podcasts ___: toen bestond het woord nog niet. (voor het begrip bestond)",a:"avant la lettre"},
+    {q:"De regisseur kreeg ___ om de film naar eigen inzicht te maken. (onbeperkte volmacht)",a:"carte blanche"},
+    {q:"___ heeft ze gelijk, ook al klinkt het wat bot. (eigenlijk, in de grond)",a:"au fond"}
+   ]}
+  ]}
+ ]}
+];
+
+/* ================== EXIT TICKET ================== */
+const EXIT=[
+ {d:"Eindredactie",q:"Wat betekent ‘tenslotte’?",o:["tot slot, als laatste","per slot van rekening, uiteindelijk","minstens","althans"],a:1},
+ {d:"Eindredactie",q:"Welke schrijfwijze is correct?",o:["tvprogramma","tv'programma","tv-programma","tv programma"],a:2},
+ {d:"Eindredactie",q:"Waarom schrijf je ‘apetrots’ zonder n?",o:["Omdat ‘aap’ uniek is","Omdat het linkerdeel versterkt: het betekent ‘heel trots’","Omdat ‘aap’ een meervoud op -s heeft","Omdat het een versteende samenstelling is"],a:1},
+ {d:"Gesprekstafel",q:"In welke fase van een adviesgesprek vraag je door en vat je samen?",o:["de verkenningsfase","de adviesfase","de besprekingsfase"],a:0},
+ {d:"Gesprekstafel",q:"‘Daardoor moeten de anderen telkens op jou wachten.’ Welk onderdeel van 4G is dit?",o:["gedrag","gevoel","gevolg","gewenst gedrag"],a:2},
+ {d:"Gesprekstafel",q:"Welke zin is een ik-boodschap?",o:["‘Jij bent altijd zo luid!’","‘Ik raak afgeleid door het lawaai en wil me graag concentreren.’","‘Waarom doe je dat toch?’","‘Iedereen ergert zich aan jou.’"],a:1},
+ {d:"Zinsbouwatelier",q:"Kies de juiste vorm: ‘Hij heeft de vraag niet …’",o:["beantwoordt","beantwoord","beantwoorden"],a:1},
+ {d:"Zinsbouwatelier",q:"‘Ik blijf thuis, want ik ben ziek.’ Wat voor zin is dit?",o:["een enkelvoudige zin","nevenschikking","onderschikking"],a:1},
+ {d:"Zinsbouwatelier",q:"Kies de juiste vorm: ‘De coach gaf … een compliment.’",o:["hen","hun"],a:1},
+ {d:"Woordkracht",q:"Wat betekent ‘significant’ in een onderzoeksverslag?",o:["zo groot dat het niet aan toeval te wijten is","heel klein","onbetrouwbaar","subjectief"],a:0},
+ {d:"Woordkracht",q:"Wat betekent ‘ad valvas’?",o:["met onderscheiding","op het mededelingenbord","gratis","in dit geval"],a:1},
+ {d:"Woordkracht",q:"Wat is het verschil tussen een spreekwoord en een gezegde?",o:["Een gezegde is altijd langer.","Een spreekwoord is een volledige zin met een wijsheid; een gezegde is een vaste uitdrukking, meestal een zinsdeel.","Er is geen verschil.","Een spreekwoord mag je vrij aanpassen."],a:1}
+];
+
+/* ================== LPD (leerkracht) ================== */
+const LPD={
+ "1":"Onderwerp, hoofdgedachte en hoofdpunten bepalen bij lezen, luisteren en kijken",
+ "2":"Relevante informatie selecteren en kritisch omgaan met betrouwbaarheid en bruikbaarheid",
+ "3":"Een geschreven tekst schriftelijk samenvatten",
+ "4":"Doelgericht spreken en schrijven (minimumvereisten)",
+ "5":"Zich creatief uitdrukken met taal",
+ "6":"Doelgericht deelnemen aan mondelinge en schriftelijke interactie",
+ "7+":"Mondeling en schriftelijk een eigen mening beargumenteren (verdieping)",
+ "8":"Eigen beleving en interpretatie van literaire teksten verwoorden",
+ "9":"In interactie gaan over de relevantie van literaire teksten",
+ "10":"Effect van taaluitingen, taalvariëteiten en talen op identiteit en sociale omgang illustreren",
+ "11":"Inzicht in taalgebruik toepassen (register, beleefdheid, tekststructuren)",
+ "12":"Inzicht in het taalsysteem toepassen (woorden, zinnen, spelling, interpunctie)",
+ "13":"Eerder en nieuw verworven woordenschat inzetten (incl. school- en vaktaal)",
+ "14":"Doelgericht strategieën inzetten (transversaal)"
+};
+const LESSON_LPD={
+ "1-1":["12","14"],"1-2":["12","4"],"1-3":["11","4","12"],"1-4":["12","14"],"1-5":["12","14"],"1-6":["12","14"],"1-7":["4","12","14"],
+ "2-1":["6","1","2","7+","11"],"2-2":["6","11","14"],"2-3":["6","11","4"],"2-4":["4","5","11","1"],"2-5":["6","11","14"],
+ "3-1":["12"],"3-2":["12","4"],"3-3":["12","14"],"3-4":["12","11","4"],"3-5":["12"],
+ "4-1":["1","2","3","13","14"],"4-2":["1","13","14"],"4-3":["1","2","7+","13"],"4-4":["13"],"4-5":["13"],"4-6":["13","10"]
+};
+const COVER={"1":"g","2":"g","3":"p","4":"g","5":"p","6":"g","7+":"p","8":"n","9":"n","10":"p","11":"g","12":"g","13":"g","14":"g"};
+
+/* ================== STATE ================== */
+const KEY="redactiekamer_v1";
+function load(){try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);if(o&&o.ans)return o}}catch(e){}return{name:"",klas:"",ans:{},res:{},exit:null}}
+let S=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const $=s=>document.querySelector(s);
+const esc=t=>String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const strip=h=>String(h).replace(/<[^>]+>/g,"");
+const norm=t=>String(t||"").toLowerCase().replace(/[’‘`´]/g,"'").replace(/\s+/g," ").trim().replace(/[.!?,;:]+$/,"").trim();
+
+/* index */
+const EX={},LES={},ORDER=[];
+DESKS.forEach(d=>d.lessons.forEach((l,li)=>{l.desk=d;l.n=li+1;LES[l.id]=l;ORDER.push(l.id);l.ex.forEach((e,ei)=>{e.lesson=l;e.desk=d;e.n=l.id.replace("-",".")+"."+(ei+1);EX[e.id]=e})}));
+const ALLEX=Object.values(EX);
+const scored=e=>e.type!=="open";
+
+/* seeded shuffle (stable per exercise) */
+function shuffle(arr,seed){const a=arr.slice();let h=0;for(const c of seed)h=(h*31+c.charCodeAt(0))>>>0;for(let i=a.length-1;i>0;i--){h=(h*1103515245+12345)>>>0;const j=h%(i+1);[a[i],a[j]]=[a[j],a[i]]}return a}
+function matchOpts(e){return e.opts?e.opts:shuffle([...new Set(e.items.map(i=>i.a))],e.id)}
+function maxOf(e){return e.type==="proof"?(e.text.match(/\{/g)||[]).length:e.items.length}
+
+/* done-ness */
+function isDone(e){if(scored(e))return !!S.res[e.id];const a=S.ans[e.id]||{};return Object.values(a).some(v=>String(v).trim().length>0)}
+function lessonState(l){const d=l.ex.filter(isDone).length;return d===0?"":d===l.ex.length?"full":"half"}
+function deskPct(d){const ex=d.lessons.flatMap(l=>l.ex);return Math.round(100*ex.filter(isDone).length/ex.length)}
+function totalPct(){const t=ALLEX.length+1;const d=ALLEX.filter(isDone).length+(S.exit&&S.exit.done?1:0);return Math.round(100*d/t)}
+
+/* ================== CHROME ================== */
+function renderSide(cur){
+  let h=`<a class="nl ${cur==="start"?"on":""} d-ink" href="#/start"><span class="dot ${S.name?"full":""}"></span>Start</a>`;
+  DESKS.forEach(d=>{
+    h+=`<div class="${d.cls}"><a class="dh" href="#/les/${d.lessons[0].id}">${d.name}<span class="mini">${deskPct(d)}%</span></a><div class="dbar"><i style="width:${deskPct(d)}%"></i></div>`;
+    d.lessons.forEach(l=>{h+=`<a class="nl ${cur===l.id?"on":""}" href="#/les/${l.id}"><span class="dot ${lessonState(l)}"></span>${l.n}. ${l.title}</a>`});
+    h+=`</div>`});
+  h+=`<h4>Afronden</h4><div class="d-ink">
+   <a class="nl ${cur==="exit"?"on":""}" href="#/exit"><span class="dot ${S.exit&&S.exit.done?"full":""}"></span>Exit ticket</a>
+   <a class="nl ${cur==="scores"?"on":""}" href="#/scores"><span class="dot"></span>Scorelijst &amp; export</a></div>
+   <h4>Voor de leerkracht</h4><div class="d-ink"><a class="nl ${cur==="lpd"?"on":""}" href="#/lpd"><span class="dot"></span>Leerplandoelen (LPD)</a></div>`;
+  $("#side").innerHTML=h;
+}
+function updateTop(){
+  const p=totalPct();$("#pbar").style.width=p+"%";$("#ppct").textContent=p+"%";
+  $("#who").textContent=S.name?(S.name+(S.klas?" · "+S.klas:"")):"";
+}
+
+/* ================== EXERCISE RENDERING ================== */
+function chip(e){
+  if(!scored(e))return `<span class="chip open">${isDone(e)?"ingevuld":"open opdracht"}</span>`;
+  const r=S.res[e.id];if(!r)return `<span class="chip">– / ${maxOf(e)}</span>`;
+  const c=r.score===r.max?"ok":r.score>=r.max/2?"mid":"";return `<span class="chip ${c}">${r.score} / ${r.max}</span>`;
+}
+function renderEx(e){
+  return `<section class="ex ${e.desk.cls}" id="ex-${e.id}"><div class="exh"><span class="num">${e.n}</span><div><h3>${e.title}</h3><div class="ins">${e.ins||""}</div></div>${chip(e)}</div><div class="exb">${body(e)}</div>${foot(e)}</section>`;
+}
+function body(e){
+  const a=S.ans[e.id]||{},r=S.res[e.id];
+  if(e.type==="choice"){
+    return `<div class="${e.layout==="list"?"list":""}">`+e.items.map((it,i)=>{
+      const sel=a[i];let q=it.q;
+      if(q.includes("___"))q=q.replace("___",`<span class="slot">${sel!=null?esc(it.o[sel]):"&nbsp;"}</span>`);
+      else if(e.layout==="row")q=`<b>${q}</b>`;
+      let opts=it.o.map((o,oi)=>{let cl="";if(r){if(oi===it.a)cl="right";else if(oi===sel)cl="wrong"}
+        return `<button class="opt ${cl}" data-ex="${e.id}" data-i="${i}" data-o="${oi}" aria-pressed="${sel===oi}">${esc(o)}</button>`}).join("");
+      let fb="";if(r){const ok=sel===it.a;fb=`<div class="fb ${ok?"ok":"bad"}">${ok?"✓ Juist.":"✗ Juist is: <b>"+esc(it.o[it.a])+"</b>."} ${it.w||""}</div>`}
+      return `<div class="item"><div class="q">${e.layout==="row"?"":(i+1)+". "}${q}</div><div class="opts">${opts}</div>${fb}</div>`}).join("")+`</div>`;
+  }
+  if(e.type==="gap"){
+    let h=e.bank?`<div class="bank">${e.bank.map(b=>`<span>${esc(b)}</span>`).join("")}</div>`:"";
+    return h+e.items.map((it,i)=>{
+      const v=a[i]||"";const acc=[].concat(it.a);let cl="",fb="";
+      if(r){const ok=acc.some(x=>norm(x)===norm(v));cl=ok?"right":"wrong";fb=ok?"":`<div class="fb bad">✗ Juist is: <b>${esc(acc[0])}</b></div>`}
+      const inp=`<input class="gin ${cl}" data-ex="${e.id}" data-i="${i}" value="${esc(v)}" aria-label="Antwoord ${i+1}" ${r?"readonly":""} autocomplete="off" spellcheck="false">`;
+      const q=it.q.includes("___")?it.q.replace("___",inp):it.q+" "+inp;
+      return `<div class="item"><div class="q">${i+1}. ${q}</div>${fb}</div>`}).join("");
+  }
+  if(e.type==="match"){
+    const opts=matchOpts(e);
+    return e.items.map((it,i)=>{const v=a[i]||"";let cl="",fb="";
+      if(r){const ok=v===it.a;cl=ok?"right":"wrong";fb=ok?"":`<div class="fb bad">✗ Juist is: <b>${esc(it.a)}</b></div>`}
+      return `<div class="item"><div class="mrow"><div>${i+1}. ${it.q}</div><select class="msel ${cl}" data-ex="${e.id}" data-i="${i}" ${r?"disabled":""} aria-label="Keuze bij ${esc(strip(it.q))}"><option value="">– kies –</option>${opts.map(o=>`<option ${o===v?"selected":""}>${esc(o)}</option>`).join("")}</select></div>${fb}</div>`}).join("");
+  }
+  if(e.type==="proof"){
+    const toks=proofTokens(e);const marks=(a.marks)||{};
+    let txt=toks.map((t,ti)=>{if(t.sp)return t.t;let cl="";
+      if(r){if(t.err){cl=(marks[ti]!=null&&norm(marks[ti])===norm(t.right))?"found":"miss"}else if(marks[ti]!=null)cl="fp"}
+      else if(marks[ti]!=null)cl="mk";
+      return `<span class="tok ${cl}" data-ex="${e.id}" data-t="${ti}" role="button" tabindex="0">${esc(t.t)}</span>`}).join("");
+    let list=Object.keys(marks).sort((x,y)=>x-y).map(ti=>{const t=toks[ti];let st="";
+      if(r){st=t.err?(norm(marks[ti])===norm(t.right)?"<span style='color:var(--ok)'>✓</span>":"<span style='color:var(--bad)'>✗ "+esc(t.right)+"</span>"):"<span style='color:var(--muted)' title='Dit woord was correct'>–</span>"}
+      return `<div class="corr"><span class="w">${esc(t.t)}</span><input class="gin pc" data-ex="${e.id}" data-t="${ti}" value="${esc(marks[ti])}" placeholder="verbetering" ${r?"readonly":""} aria-label="Verbetering voor ${esc(t.t)}">${st}</div>`}).join("");
+    let missed="";if(r){const m=toks.map((t,ti)=>t.err&&!(marks[ti]!=null&&norm(marks[ti])===norm(t.right))?`${esc(t.t)} → <b>${esc(t.right)}</b>`:null).filter(Boolean);if(m.length)missed=`<div class="fb bad" style="margin-top:10px">Nog te verbeteren: ${m.join(" · ")}</div>`;const fp=Object.keys(marks).filter(ti=>!toks[ti].err).length;if(fp)missed+=`<div class="fb bad">${fp} correct(e) woord(en) onterecht als fout aangeduid (−${fp}).</div>`}
+    return `<div class="proof"><h4>${esc(e.head)}</h4>${txt}</div><div style="margin-top:12px">${list||"<p class='note'>Klik op een woord in de tekst om het als fout aan te duiden.</p>"}</div>${missed}`;
+  }
+  if(e.type==="open"){
+    const show=S.ans[e.id+"_m"];
+    return e.fields.map((f,i)=>`<div class="ofield"><label for="o-${e.id}-${i}">${f.l}</label><textarea class="open" id="o-${e.id}-${i}" data-ex="${e.id}" data-f="${i}" rows="${f.r||3}">${esc(a[i]||"")}</textarea>${show&&f.m?`<div class="model"><b>Modelantwoord:</b> ${f.m}</div>`:""}</div>`).join("");
+  }
+  return "";
+}
+function foot(e){
+  if(e.type==="open"){const hasM=e.fields.some(f=>f.m);return `<div class="exf">${hasM?`<button class="btn2" data-model="${e.id}">${S.ans[e.id+"_m"]?"Verberg":"Toon"} modelantwoord</button>`:""}<span class="note">Je antwoorden worden automatisch bewaard en komen mee in je PDF.</span></div>`}
+  const r=S.res[e.id];
+  return `<div class="exf">${r?`<button class="btn2" data-reset="${e.id}">Opnieuw proberen</button><span class="note">Score: ${r.score} op ${r.max}</span>`:`<button class="btn" data-check="${e.id}">Controleer</button><span class="err" id="err-${e.id}" role="alert"></span>`}</div>`;
+}
+function proofTokens(e){
+  if(e._t)return e._t;const out=[];const re=/\{([^|}]+)\|([^}]+)\}|(\s+)|([^\s{]+)/g;let m;
+  while((m=re.exec(e.text))){if(m[1])out.push({t:m[1],right:m[2],err:true});else if(m[3]||/^[.,;:!?‘’'"()]+$/.test(m[4]))out.push({t:m[3]||m[4],sp:true});else out.push({t:m[4]})}
+  return e._t=out;
+}
+function rerender(id){const e=EX[id];const el=$("#ex-"+id);if(el)el.outerHTML=renderEx(e);renderSide(curRoute);updateTop()}
+
+/* ================== CHECK ================== */
+function check(id){
+  const e=EX[id],a=S.ans[id]||{};const err=$("#err-"+id);let score=0;const max=maxOf(e);
+  if(e.type==="choice"){if(e.items.some((it,i)=>a[i]==null)){err.textContent="Beantwoord eerst alle items.";return}score=e.items.filter((it,i)=>a[i]===it.a).length}
+  else if(e.type==="gap"){if(e.items.some((it,i)=>!String(a[i]||"").trim())){err.textContent="Vul eerst alle open plaatsen in.";return}score=e.items.filter((it,i)=>[].concat(it.a).some(x=>norm(x)===norm(a[i]))).length}
+  else if(e.type==="match"){if(e.items.some((it,i)=>!a[i])){err.textContent="Maak eerst bij elk item een keuze.";return}score=e.items.filter((it,i)=>a[i]===it.a).length}
+  else if(e.type==="proof"){const mk=a.marks||{};if(!Object.keys(mk).length){err.textContent="Duid eerst minstens één fout aan.";return}
+    if(Object.values(mk).some(v=>!String(v).trim())){err.textContent="Typ bij elk aangeduid woord een verbetering.";return}
+    const toks=proofTokens(e);let ok=0,fp=0;Object.keys(mk).forEach(ti=>{const t=toks[ti];if(t.err){if(norm(mk[ti])===norm(t.right))ok++}else fp++});score=Math.max(0,ok-fp)}
+  S.res[id]={score,max};save();rerender(id);
+}
+
+/* ================== PAGES ================== */
+function linksBox(l){return `<div class="box"><h3>Zoek het zelf op</h3><ul>${l.links.map(k=>`<li><a href="${L[k][1]}" target="_blank" rel="noopener">${L[k][0]} ↗</a></li>`).join("")}</ul></div>`}
+function pageLesson(id){
+  const l=LES[id],d=l.desk;const i=ORDER.indexOf(id);
+  let h=`<div class="${d.cls}"><div class="kicker">${d.name} · les ${l.n} van ${d.lessons.length}</div><h1>${l.title}</h1><p class="lead">${l.lead}</p>
+  <div class="nut"><h3>In een notendop</h3>${l.theory}</div>
+  <div class="two">${linksBox(l)}<div class="box camp"><h3>Op de campus en in andere vakken</h3>${l.campus}</div></div>`;
+  if(l.dialog){h+=`<div class="article dialog"><h3>${l.dialog.title}</h3><div class="src">Gesprekstekst, nieuw geschreven voor deze module</div><button class="tts" id="ttsBtn">▶ Laat voorlezen</button>${l.dialog.lines.map(x=>`<div class="line"><span class="sp">${x[0]}</span><span>${x[1]}</span></div>`).join("")}</div>`}
+  if(l.text){h+=`<article class="article"><h3>${l.text.title}</h3><div class="src">${l.text.src}</div>${l.text.body}</article>`}
+  h+=l.ex.map(renderEx).join("");
+  const prev=ORDER[i-1],next=ORDER[i+1];
+  h+=`<div class="pn">${prev?`<a href="#/les/${prev}"><small>← Vorige</small>${LES[prev].title}</a>`:`<a href="#/start"><small>← Terug</small>Start</a>`}${next?`<a href="#/les/${next}" style="text-align:right"><small>Volgende →</small>${LES[next].title}</a>`:`<a href="#/exit" style="text-align:right"><small>Volgende →</small>Exit ticket</a>`}</div></div>`;
+  return h;
+}
+function pageStart(){
+  return `<div class="hero"><div class="mast">Redactiekamer · Nederlands derde graad</div><h1>Welkom op de redactie</h1>
+  <p>Je hebt een weekendjob bij een nieuwsredactie. Vier desks wachten op je. Je leert er foutloos schrijven, sterke gesprekken voeren, zinnen bouwen als een vakman en een rijke woordenschat inzetten. Je gebruikt dat in elk vak en straks in het hoger onderwijs.</p>
+  <div class="idf"><label>Naam<input id="inName" value="${esc(S.name)}" placeholder="Voornaam Achternaam" autocomplete="name"></label><label>Klas<input id="inKlas" value="${esc(S.klas)}" placeholder="6B"></label></div></div>
+  <h2>De vier desks</h2><div class="desks">${DESKS.map(d=>`<a class="dcard ${d.cls}" href="#/les/${d.lessons[0].id}"><span class="o">${d.orig}</span><span class="t">${d.name}</span><span class="s">${d.sub}</span><span class="p">${d.lessons.length} lessen · ${deskPct(d)}% voltooid</span></a>`).join("")}</div>
+  <h2>Zo werk je</h2>
+  <ol class="steps d-ink">
+   <li>Vul hierboven je naam en klas in. Ze komen op je PDF.</li>
+   <li>Elke les start met <b>In een notendop</b> (de regel), links om <b>zelf op te zoeken</b> en een tip <b>voor de campus</b>, gevolgd door oefeningen.</li>
+   <li>Klik bij elke oefening op <b>Controleer</b>. Je ziet meteen wat juist is en waarom. Je score komt in de <b>scorelijst</b>.</li>
+   <li>Open opdrachten (gesprekken, speech, reflectie, herschrijven) tellen niet mee voor de score, maar komen wel in je PDF.</li>
+   <li>Sluit af met het <b>exit ticket</b> en exporteer alles als <b>PDF</b>.</li></ol>
+  <p class="note">Je werk wordt automatisch bewaard in deze browser. Wil je opnieuw beginnen? <button class="btn2" id="resetAll" style="padding:4px 10px;font-size:13px">Alles wissen</button></p>
+  <footer>Inhoud gebaseerd op de leerstof van de reeks Taalredactie (taalzorg, taal in interactie, functionele spraakkunst, rijke taal). Alle teksten, voorbeelden en oefeningen zijn nieuw geschreven.</footer>`;
+}
+function pageExit(){
+  const x=S.exit||{a:{}};
+  let h=`<div class="d-ink"><div class="kicker">Afronden</div><h1>Exit ticket</h1><p class="lead">Twaalf vragen over de kern van de vier desks. Beantwoord alles en klik op <b>Controleer exit ticket</b>.</p><section class="ex d-ink" id="exitbox"><div class="exb list">`;
+  h+=EXIT.map((q,i)=>{const sel=x.a[i];const opts=q.o.map((o,oi)=>{let cl="";if(x.done){if(oi===q.a)cl="right";else if(oi===sel)cl="wrong"}return `<button class="opt ${cl}" data-exit="${i}" data-o="${oi}" aria-pressed="${sel===oi}">${esc(o)}</button>`}).join("");
+    return `<div class="item"><div class="q"><span class="tag">${q.d}</span> ${i+1}. ${q.q}</div><div class="opts">${opts}</div></div>`}).join("");
+  h+=`</div><div class="exf">${x.done?`<button class="btn2" id="exitReset">Opnieuw</button><span class="chip ${x.score>=9?"ok":x.score>=6?"mid":""}" style="margin:0">${x.score} / ${EXIT.length}</span><span class="note">${x.score>=10?"Sterk! Je beheerst de kern.":x.score>=7?"Goed bezig. Herhaal de lessen waar je een fout maakte.":"Herhaal de notendop-kaders van de desks en probeer opnieuw."}</span>`:`<button class="btn" id="exitCheck">Controleer exit ticket</button><span class="err" id="exitErr" role="alert"></span>`}</div></section>
+  <div class="pn"><a href="#/les/${ORDER[ORDER.length-1]}"><small>← Vorige</small>${LES[ORDER[ORDER.length-1]].title}</a><a href="#/scores" style="text-align:right"><small>Volgende →</small>Scorelijst &amp; export</a></div></div>`;
+  return h;
+}
+function totals(){let s=0,m=0;ALLEX.filter(scored).forEach(e=>{const r=S.res[e.id];m+=maxOf(e);if(r)s+=r.score});return{s,m}}
+function scoreTable(){
+  let h=`<table class="score"><thead><tr><th>Oefening</th><th>Type</th><th class="n">Score</th><th>Resultaat</th></tr></thead><tbody>`;
+  DESKS.forEach(d=>{let ds=0,dm=0;const rows=d.lessons.flatMap(l=>l.ex).map(e=>{
+    if(!scored(e))return `<tr><td>${e.n} ${e.title}</td><td>open</td><td class="n">–</td><td>${isDone(e)?'<span class="tag g">ingevuld</span>':'<span class="tag">nog niet ingevuld</span>'}</td></tr>`;
+    const r=S.res[e.id];dm+=maxOf(e);if(r)ds+=r.score;const pc=r?Math.round(100*r.score/r.max):0;
+    return `<tr><td>${e.n} ${e.title}</td><td>${{choice:"keuze",gap:"invullen",match:"koppelen",proof:"redactie"}[e.type]}</td><td class="n">${r?r.score+" / "+r.max:"– / "+maxOf(e)}</td><td>${r?`<span class="mbar"><i style="width:${pc}%"></i></span>${pc}%`:'<span class="note">nog niet gemaakt</span>'}</td></tr>`}).join("");
+    h+=`<tr class="dk ${d.cls}"><td colspan="2">${d.name} <span style="font-weight:400">(${d.orig})</span></td><td class="n">${ds} / ${dm}</td><td>${dm?Math.round(100*ds/dm):0}%</td></tr>`+rows});
+  const t=totals();const x=S.exit;
+  h+=`<tr class="dk d-ink"><td colspan="2">Exit ticket</td><td class="n">${x&&x.done?x.score+" / "+EXIT.length:"– / "+EXIT.length}</td><td>${x&&x.done?Math.round(100*x.score/EXIT.length)+"%":"nog niet gemaakt"}</td></tr>`;
+  h+=`<tr class="tot"><td colspan="2">Totaal oefeningen (zonder exit ticket)</td><td class="n">${t.s} / ${t.m}</td><td>${t.m?Math.round(100*t.s/t.m):0}%</td></tr></tbody></table>`;
+  return h;
+}
+function pageScores(){
+  const t=totals();const done=ALLEX.filter(scored).filter(e=>S.res[e.id]).length,ns=ALLEX.filter(scored).length;
+  return `<div class="d-ink"><div class="kicker">Afronden</div><h1>Scorelijst &amp; export</h1><p class="lead">Een overzicht van al je resultaten. Exporteer je werk als PDF voor je leerkracht of je portfolio.</p>
+  <div class="stats"><div class="stat"><div class="l">Totale voortgang</div><div class="v">${totalPct()}%</div></div><div class="stat"><div class="l">Score oefeningen</div><div class="v">${t.s}/${t.m}</div></div><div class="stat"><div class="l">Oefeningen gecontroleerd</div><div class="v">${done}/${ns}</div></div><div class="stat"><div class="l">Exit ticket</div><div class="v">${S.exit&&S.exit.done?S.exit.score+"/"+EXIT.length:"–"}</div></div></div>
+  ${scoreTable()}
+  <div class="box" style="margin-top:18px"><h3>Exporteren als PDF</h3><p>Klik op de knop. Kies in het afdrukvenster als printer <b>Opslaan als PDF</b> (of ‘Microsoft Print to PDF’). Je PDF bevat je naam, de scorelijst, al je antwoorden met correcties, je open opdrachten en het exit ticket.</p>${S.name?"":"<p class='err'>Tip: vul eerst je naam in op de startpagina.</p>"}<button class="btn" id="pdfBtn2">Exporteer als PDF</button></div></div>`;
+}
+function pageLPD(){
+  let h=`<div class="d-ink"><div class="kicker">Voor de leerkracht</div><h1>Koppeling met de leerplandoelen</h1><p class="lead">Leerplan Nederlands derde graad D/A-finaliteit (III-Ned-da), Katholiek Onderwijs Vlaanderen, versie juni 2024. Er zat geen leerplan als bijlage bij: de koppeling volgt het opgeslagen LPD-overzicht van III-Ned-da.</p>
+  <h2>Per les</h2><table class="score"><thead><tr><th>Desk / les</th><th>LPD</th></tr></thead><tbody>`;
+  DESKS.forEach(d=>{h+=`<tr class="dk ${d.cls}"><td colspan="2">${d.name} (${d.orig})</td></tr>`;d.lessons.forEach(l=>{h+=`<tr><td>${l.id.replace("-",".")} ${l.title}</td><td>${LESSON_LPD[l.id].map(x=>`<span class="tag">LPD ${x}</span>`).join("")}</td></tr>`})});
+  h+=`<tr class="dk d-ink"><td>Exit ticket</td><td><span class="tag">LPD 11</span><span class="tag">LPD 12</span><span class="tag">LPD 13</span><span class="tag">LPD 6</span></td></tr></tbody></table>
+  <h2>Wat de leerling kan na deze module</h2><table class="score"><thead><tr><th>LPD</th><th>Inhoud</th><th>Wat de leerling hier doet</th></tr></thead><tbody>`;
+  const doet={"1":"Bepaalt onderwerp en hoofdgedachte van informatieve teksten, een opiniestuk, een gesprek en een speech.","2":"Beoordeelt de betrouwbaarheid van een onderzoek (steekproef, beperkingen) en onderscheidt feit van mening.","3":"Vat een informatieve tekst samen in een doorlopende tekst van max. 80 woorden.","4":"Redigeert een nieuwsbericht en zinnen (naamwoordstijl, passief), schrijft en brengt een speech.","5":"Schrijft creatief een eigen proclamatiespeech met een doorlopend beeld.","6":"Voert een adviesgesprek, wandelgesprek, feedbackgesprek en reflectiegesprek.","7+":"Gaat in op weerstand in een adviesgesprek en analyseert standpunt, argumenten en tegenargument.","8":"–","9":"–","10":"Ontdekt de invloed van Latijn en Frans op het Nederlands (leenuitdrukkingen, formeel register).","11":"Kiest gepast register en beleefdheidsvormen (ik-boodschappen, 4G), herkent tekstverbanden en tekststructuur (speech, betoog).","12":"Past regels toe voor spelling (semantisch principe, tussen-n, koppelteken, apostrof), werkwoordspelling, woordsoorten, zinsbouw en valentie.","13":"Zet vaktaal en laagfrequente woorden in (wetenschap, psychologie, economie, politiek, Latijn/Frans, spreekwoorden).","14":"Gebruikt strategieën: opzoeken in het Groene Boekje, analogie en ’t kofschip, vraagzin om de persoonsvorm te vinden, woordbetekenis afleiden uit context en bouwstenen."};
+  Object.keys(LPD).forEach(k=>{h+=`<tr><td><span class="tag ${COVER[k]}">LPD ${k}</span></td><td>${LPD[k]}</td><td>${doet[k]}</td></tr>`});
+  h+=`</tbody></table><h2>Dekkingscheck</h2><p><span class="tag g">gedekt</span> LPD 1, 2, 4, 6, 11, 12, 13, 14 &nbsp; <span class="tag p">gedeeltelijk</span> LPD 3 (één samenvatting), 5 (speech), 7+ (analyse, geen eigen betoog), 10 (enkel invloed van andere talen) &nbsp; <span class="tag n">niet gedekt</span> LPD 8 en 9 (literatuur: geen literaire teksten in het bronmateriaal)</p>
+  <p class="note">Suggestie: koppel de module aan een literaire tekst (bv. een kortverhaal waarin de leerlingen beeldspraak en dialogen analyseren) om LPD 8 en 9 te dekken, en laat leerlingen bij LPD 7+ zelf een kort betoog schrijven als reactie op het opiniestuk in Woordkracht 4.3.</p></div>`;
+  return h;
+}
+
+/* ================== ROUTER ================== */
+let curRoute="start";
+function route(){
+  const h=location.hash.replace(/^#\/?/,"");const [p,arg]=h.split("/");let html="";
+  if(p==="les"&&LES[arg]){curRoute=arg;html=pageLesson(arg)}
+  else if(p==="exit"){curRoute="exit";html=pageExit()}
+  else if(p==="scores"){curRoute="scores";html=pageScores()}
+  else if(p==="lpd"){curRoute="lpd";html=pageLPD()}
+  else{curRoute="start";html=pageStart()}
+  try{speechSynthesis.cancel()}catch(e){}
+  $("#main").innerHTML=html;renderSide(curRoute);updateTop();$("#side").classList.remove("open");window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route);
+
+/* ================== EVENTS ================== */
+document.addEventListener("click",ev=>{
+  const t=ev.target.closest("button,.tok,a");if(t&&t.closest("#pdfBtn")){exportPDF();return}if(!t)return;
+  if(t.id==="menuBtn"){$("#side").classList.toggle("open");return}
+  if(t.id==="pdfBtn"||t.id==="pdfBtn2"){exportPDF();return}
+  if(t.id==="resetAll"){if(confirm("Ben je zeker? Al je antwoorden en scores worden gewist.")){S={name:"",klas:"",ans:{},res:{},exit:null};save();route()}return}
+  if(t.id==="ttsBtn"){tts(t);return}
+  if(t.dataset.check){check(t.dataset.check);return}
+  if(t.dataset.reset){const id=t.dataset.reset;delete S.res[id];delete S.ans[id];save();rerender(id);return}
+  if(t.dataset.model){const k=t.dataset.model+"_m";S.ans[k]=!S.ans[k];save();rerender(t.dataset.model);return}
+  if(t.classList.contains("opt")&&t.dataset.ex){const id=t.dataset.ex;if(S.res[id])return;S.ans[id]=S.ans[id]||{};S.ans[id][t.dataset.i]=+t.dataset.o;save();rerender(id);return}
+  if(t.dataset.exit!=null){if(S.exit&&S.exit.done)return;S.exit=S.exit||{a:{}};S.exit.a[t.dataset.exit]=+t.dataset.o;save();$("#main").innerHTML=pageExit();return}
+  if(t.id==="exitCheck"){const x=S.exit||{a:{}};if(EXIT.some((q,i)=>x.a[i]==null)){$("#exitErr").textContent="Beantwoord eerst alle twaalf vragen.";return}x.score=EXIT.filter((q,i)=>x.a[i]===q.a).length;x.done=true;S.exit=x;save();$("#main").innerHTML=pageExit();renderSide(curRoute);updateTop();return}
+  if(t.id==="exitReset"){S.exit=null;save();$("#main").innerHTML=pageExit();renderSide(curRoute);updateTop();return}
+  if(t.classList.contains("tok")){const id=t.dataset.ex;if(S.res[id])return;S.ans[id]=S.ans[id]||{marks:{}};const mk=S.ans[id].marks=S.ans[id].marks||{};const ti=t.dataset.t;if(mk[ti]!=null)delete mk[ti];else mk[ti]="";save();rerender(id);const inp=document.querySelector(`.pc[data-ex="${id}"][data-t="${ti}"]`);if(inp)inp.focus();return}
+});
+document.addEventListener("keydown",ev=>{if((ev.key==="Enter"||ev.key===" ")&&ev.target.classList&&ev.target.classList.contains("tok")){ev.preventDefault();ev.target.click()}});
+document.addEventListener("input",ev=>{
+  const t=ev.target;
+  if(t.id==="inName"){S.name=t.value;save();updateTop();return}
+  if(t.id==="inKlas"){S.klas=t.value;save();updateTop();return}
+  const id=t.dataset&&t.dataset.ex;if(!id)return;
+  if(t.classList.contains("pc")){S.ans[id].marks[t.dataset.t]=t.value;save();const e=$("#err-"+id);if(e)e.textContent="";return}
+  S.ans[id]=S.ans[id]||{};
+  if(t.classList.contains("gin")){S.ans[id][t.dataset.i]=t.value}
+  else if(t.classList.contains("open")){S.ans[id][t.dataset.f]=t.value;const was=t.dataset.w;save();const c=document.querySelector(`#ex-${id} .chip`);if(c)c.textContent=isDone(EX[id])?"ingevuld":"open opdracht";renderSide(curRoute);updateTop();return}
+  save();const e=$("#err-"+id);if(e)e.textContent="";
+});
+document.addEventListener("change",ev=>{const t=ev.target;if(t.classList.contains("msel")){const id=t.dataset.ex;S.ans[id]=S.ans[id]||{};S.ans[id][t.dataset.i]=t.value;save();const e=$("#err-"+id);if(e)e.textContent=""}});
+
+/* ================== TEXT-TO-SPEECH ================== */
+function tts(btn){
+  try{
+    if(speechSynthesis.speaking){speechSynthesis.cancel();btn.textContent="▶ Laat voorlezen";return}
+    const l=LES[curRoute];const vs=speechSynthesis.getVoices().filter(v=>/^nl/i.test(v.lang));
+    const v1=vs.find(v=>/BE/i.test(v.lang))||vs[0],v2=vs.find(v=>v!==v1)||v1;
+    l.dialog.lines.forEach((x,i)=>{const u=new SpeechSynthesisUtterance(x[1]);u.lang=(v1&&v1.lang)||"nl-BE";const v=x[0]==="Elias"?v2:v1;if(v)u.voice=v;u.rate=.95;u.pitch=x[0]==="Elias"?.9:1.1;if(i===l.dialog.lines.length-1)u.onend=()=>{btn.textContent="▶ Laat voorlezen"};speechSynthesis.speak(u)});
+    btn.textContent="■ Stop";
+  }catch(e){btn.textContent="Voorlezen niet beschikbaar in deze browser"}
+}
+
+/* ================== PDF EXPORT ================== */
+function exportPDF(){
+  const d=new Date().toLocaleDateString("nl-BE",{day:"numeric",month:"long",year:"numeric"});
+  let h=`<h1>Redactiekamer – mijn werk</h1><div class="meta"><b>Naam:</b> ${esc(S.name||"……………………")} &nbsp; <b>Klas:</b> ${esc(S.klas||"……")} &nbsp; <b>Datum:</b> ${d} &nbsp; <b>Voortgang:</b> ${totalPct()}%</div>`;
+  h+=`<h2>Scorelijst</h2><table><tr><th>Desk</th><th>Oefening</th><th>Score</th></tr>`;
+  DESKS.forEach(dk=>dk.lessons.flatMap(l=>l.ex).forEach(e=>{const r=S.res[e.id];h+=`<tr><td>${dk.name}</td><td>${e.n} ${e.title}</td><td>${scored(e)?(r?r.score+" / "+r.max:"niet gemaakt"):(isDone(e)?"open – ingevuld":"open – leeg")}</td></tr>`}));
+  const t=totals();h+=`<tr><th colspan="2">Totaal oefeningen</th><th>${t.s} / ${t.m}</th></tr><tr><th colspan="2">Exit ticket</th><th>${S.exit&&S.exit.done?S.exit.score+" / "+EXIT.length:"niet gemaakt"}</th></tr></table>`;
+  DESKS.forEach((dk,di)=>{h+=`<h2 class="pb">${dk.name} <span style="font-weight:400;font-size:11pt">(${dk.orig})</span></h2>`;
+    dk.lessons.forEach(l=>{h+=`<h3>Les ${l.id.replace("-",".")} – ${l.title}</h3>`;l.ex.forEach(e=>{h+=printEx(e)})})});
+  h+=`<h2 class="pb">Exit ticket</h2>`;
+  EXIT.forEach((q,i)=>{const x=S.exit||{a:{}};const s=x.a[i];const ok=s===q.a;h+=`<div class="pi">${i+1}. ${q.q}<br>&nbsp;&nbsp;Mijn antwoord: <b>${s!=null?esc(q.o[s]):"—"}</b> ${x.done?(ok?'<span class="ok">✓</span>':'<span class="bad">✗ juist: '+esc(q.o[q.a])+'</span>'):""}</div>`});
+  $("#printArea").innerHTML=h;
+  setTimeout(()=>{try{window.print()}catch(e){alert("Afdrukken is hier niet beschikbaar. Open het bestand in Chrome, Edge of Firefox.")}},60);
+}
+function printEx(e){
+  const a=S.ans[e.id]||{},r=S.res[e.id];
+  let h=`<div class="pi"><b>${e.n} ${e.title}</b> ${scored(e)?(r?`– score ${r.score}/${r.max}`:"– niet gecontroleerd"):"– open opdracht"}</div>`;
+  const mark=(ok)=>r?(ok?' <span class="ok">✓</span>':' <span class="bad">✗</span>'):"";
+  if(e.type==="choice")e.items.forEach((it,i)=>{const s=a[i];const ok=s===it.a;h+=`<div class="pi">${e.layout==="row"?it.q:(i+1)}. ${e.layout==="row"?"":strip(it.q).replace("___","…")} → <b>${s!=null?esc(it.o[s]):"—"}</b>${mark(ok)}${r&&!ok?` <span class="bad">(juist: ${esc(it.o[it.a])})</span>`:""}</div>`});
+  if(e.type==="gap")e.items.forEach((it,i)=>{const acc=[].concat(it.a);const ok=acc.some(x=>norm(x)===norm(a[i]));h+=`<div class="pi">${i+1}. ${strip(it.q).replace("___","…")} → <b>${esc(a[i]||"—")}</b>${mark(ok)}${r&&!ok?` <span class="bad">(juist: ${esc(acc[0])})</span>`:""}</div>`});
+  if(e.type==="match")e.items.forEach((it,i)=>{const ok=a[i]===it.a;h+=`<div class="pi">${i+1}. ${strip(it.q)} → <b>${esc(a[i]||"—")}</b>${mark(ok)}${r&&!ok?` <span class="bad">(juist: ${esc(it.a)})</span>`:""}</div>`});
+  if(e.type==="proof"){const toks=proofTokens(e);const mk=a.marks||{};const ks=Object.keys(mk);if(!ks.length)h+=`<div class="pi">Geen fouten aangeduid.</div>`;ks.forEach(ti=>{const tk=toks[ti];const ok=tk.err&&norm(mk[ti])===norm(tk.right);h+=`<div class="pi">${esc(tk.t)} → <b>${esc(mk[ti]||"—")}</b>${r?(tk.err?(ok?' <span class="ok">✓</span>':' <span class="bad">✗ juist: '+esc(tk.right)+'</span>'):' <span class="bad">(was correct)</span>'):""}</div>`});
+    if(r){const miss=toks.filter((tk,ti)=>tk.err&&!(mk[ti]!=null&&norm(mk[ti])===norm(tk.right)));if(miss.length)h+=`<div class="pi bad">Gemist: ${miss.map(tk=>esc(tk.t)+" → "+esc(tk.right)).join("; ")}</div>`}}
+  if(e.type==="open")e.fields.forEach((f,i)=>{h+=`<div class="pi">${strip(f.l)}</div><div class="otext">${esc(a[i]||"—")}</div>`});
+  return h;
+}
+
+/* ================== INIT ================== */
+route();
+</script>
+</body>
+</html>
